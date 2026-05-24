@@ -1,0 +1,174 @@
+openapi: 3.1.0
+info:
+  title: Amazon Nova on Amazon Bedrock Runtime API
+  version: "2023-09-30"
+  description: |
+    Invoke Amazon Nova foundation models (Premier, Pro, Lite, Micro, Canvas,
+    Reel, Sonic) through the Amazon Bedrock Runtime API. Supports
+    request/response and streaming inference using the Converse and
+    InvokeModel families of operations, plus asynchronous invocation for
+    long-running tasks like Nova Reel video generation.
+    All requests are signed with AWS Signature Version 4 (SigV4).
+  contact:
+    name: Amazon Web Services
+    url: https://docs.aws.amazon.com/nova/latest/userguide/what-is-nova.html
+servers:
+  - url: https://bedrock-runtime.{region}.amazonaws.com
+    description: Bedrock Runtime regional endpoint
+    variables:
+      region:
+        default: us-east-1
+        description: AWS region identifier supporting the desired Nova model.
+tags:
+  - name: Inference
+    description: Synchronous and streaming inference operations.
+  - name: Async
+    description: Asynchronous invocation for long-running generation jobs.
+paths:
+  /model/{modelId}/invoke:
+    post:
+      tags: [Inference]
+      summary: Invoke a Nova model
+      description: |
+        Synchronously invoke a Nova model identified by its model ID
+        (for example `amazon.nova-pro-v1:0`, `amazon.nova-canvas-v1:0`,
+        or an inference profile id like `us.amazon.nova-lite-v1:0`).
+      operationId: invokeModel
+      parameters:
+        - in: path
+          name: modelId
+          required: true
+          schema:
+            type: string
+          description: Nova model identifier or inference profile id.
+        - in: header
+          name: Content-Type
+          required: true
+          schema: { type: string, enum: ["application/json"] }
+        - in: header
+          name: Accept
+          schema: { type: string, enum: ["application/json"] }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Nova-specific request payload (messages, inferenceConfig, etc.).
+      responses:
+        "200":
+          description: Model output.
+          content:
+            application/json:
+              schema:
+                type: object
+  /model/{modelId}/invoke-with-response-stream:
+    post:
+      tags: [Inference]
+      summary: Invoke a Nova model with streaming output
+      operationId: invokeModelWithResponseStream
+      parameters:
+        - in: path
+          name: modelId
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: Event stream of model output chunks.
+  /model/{modelId}/converse:
+    post:
+      tags: [Inference]
+      summary: Converse with a Nova model
+      description: Use the unified Bedrock Converse API for chat-style interactions.
+      operationId: converse
+      parameters:
+        - in: path
+          name: modelId
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                messages:
+                  type: array
+                  items: { type: object }
+                system:
+                  type: array
+                  items: { type: object }
+                inferenceConfig:
+                  type: object
+                toolConfig:
+                  type: object
+      responses:
+        "200":
+          description: Conversation response.
+  /model/{modelId}/converse-stream:
+    post:
+      tags: [Inference]
+      summary: Converse with streaming
+      operationId: converseStream
+      parameters:
+        - in: path
+          name: modelId
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: Event stream of conversation chunks.
+  /async-invoke:
+    post:
+      tags: [Async]
+      summary: Start an asynchronous Nova invocation
+      description: Used for Nova Reel and other long-running generations.
+      operationId: startAsyncInvoke
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                modelId: { type: string }
+                modelInput: { type: object }
+                outputDataConfig: { type: object }
+      responses:
+        "200":
+          description: Invocation ARN.
+  /async-invoke/{invocationArn}:
+    parameters:
+      - in: path
+        name: invocationArn
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Async]
+      summary: Get async invocation status
+      operationId: getAsyncInvoke
+      responses:
+        "200":
+          description: Invocation status.
+components:
+  securitySchemes:
+    SigV4:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: AWS Signature Version 4 signed request.
+security:
+  - SigV4: []
