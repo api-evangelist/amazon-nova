@@ -2,8 +2,11 @@
   "repo": "amazon-nova",
   "feeds": [
     {
-      "source": "https://aws.amazon.com/blogs/machine-learning/tag/amazon-nova/feed/",
-      "error": "HTTPError"
+      "source": "https://aws.amazon.com/blogs/machine-learning/feed/",
+      "feed_url": "https://aws.amazon.com/blogs/machine-learning/feed/",
+      "title": "",
+      "saved": 17,
+      "method": "feed"
     },
     {
       "source": "https://aws.amazon.com/premiumsupport/",
@@ -13,6 +16,6 @@
       "method": "none"
     }
   ],
-  "post_count": 159,
-  "fetched": "2026-06-14T20:42:17Z"
+  "post_count": 180,
+  "fetched": "2026-06-27T12:03:07Z"
 }
