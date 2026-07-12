@@ -41,6 +41,14 @@ apis:
   - type: Pricing
     url: https://aws.amazon.com/bedrock/pricing/
 common:
+- type: TrustCenter
+  url: security/amazon-nova-trust-center.yml
+- type: VulnerabilityDisclosure
+  url: security/amazon-nova-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/amazon-nova-domain-security.yml
+- type: Authentication
+  url: authentication/amazon-nova-authentication.yml
 - type: Portal
   url: https://aws.amazon.com/ai/nova/
 - type: Website
