@@ -5,7 +5,7 @@
       "source": "https://aws.amazon.com/blogs/machine-learning/feed/",
       "feed_url": "https://aws.amazon.com/blogs/machine-learning/feed/",
       "title": "",
-      "saved": 17,
+      "saved": 0,
       "method": "feed"
     },
     {
@@ -16,6 +16,6 @@
       "method": "none"
     }
   ],
-  "post_count": 180,
-  "fetched": "2026-06-27T12:03:07Z"
+  "post_count": 200,
+  "fetched": "2026-07-11T11:50:51Z"
 }
