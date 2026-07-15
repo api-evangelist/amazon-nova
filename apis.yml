@@ -41,6 +41,8 @@ apis:
   - type: Pricing
     url: https://aws.amazon.com/bedrock/pricing/
 common:
+- type: AgenticAccess
+  url: agentic-access/amazon-nova-agentic-access.yml
 - type: TrustCenter
   url: security/amazon-nova-trust-center.yml
 - type: VulnerabilityDisclosure
