@@ -1,0 +1,78 @@
+openapi: 3.1.0
+info:
+  title: Amazon Nova on Amazon Bedrock Runtime Async API
+  version: '2023-09-30'
+  description: 'Invoke Amazon Nova foundation models (Premier, Pro, Lite, Micro, Canvas,
+
+    Reel, Sonic) through the Amazon Bedrock Runtime API. Supports
+
+    request/response and streaming inference using the Converse and
+
+    InvokeModel families of operations, plus asynchronous invocation for
+
+    long-running tasks like Nova Reel video generation.
+
+    All requests are signed with AWS Signature Version 4 (SigV4).
+
+    '
+  contact:
+    name: Amazon Web Services
+    url: https://docs.aws.amazon.com/nova/latest/userguide/what-is-nova.html
+servers:
+- url: https://bedrock-runtime.{region}.amazonaws.com
+  description: Bedrock Runtime regional endpoint
+  variables:
+    region:
+      default: us-east-1
+      description: AWS region identifier supporting the desired Nova model.
+security:
+- SigV4: []
+tags:
+- name: Async
+  description: Asynchronous invocation for long-running generation jobs.
+paths:
+  /async-invoke:
+    post:
+      tags:
+      - Async
+      summary: Start an asynchronous Nova invocation
+      description: Used for Nova Reel and other long-running generations.
+      operationId: startAsyncInvoke
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                modelId:
+                  type: string
+                modelInput:
+                  type: object
+                outputDataConfig:
+                  type: object
+      responses:
+        '200':
+          description: Invocation ARN.
+  /async-invoke/{invocationArn}:
+    parameters:
+    - in: path
+      name: invocationArn
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Async
+      summary: Get async invocation status
+      operationId: getAsyncInvoke
+      responses:
+        '200':
+          description: Invocation status.
+components:
+  securitySchemes:
+    SigV4:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: AWS Signature Version 4 signed request.
