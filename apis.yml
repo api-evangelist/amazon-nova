@@ -5,7 +5,20 @@ description: >-
   Amazon Bedrock and support text, image, video, speech understanding and generation across a range of model types: Nova Premier (1M context), Nova Pro, Nova Lite, Nova Micro (text-only), Nova Canvas (image
   generation), Nova Reel (video generation), and Nova Sonic (speech).
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/amazon-nova.png
 tags:
 - AWS
 - Foundation Models
@@ -23,8 +36,10 @@ specificationVersion: '0.19'
 apis:
 - aid: amazon-nova:amazon-nova-api
   name: Amazon Nova API
-  description: The Amazon Nova API provides programmatic access to Amazon Nova foundation models through Amazon Bedrock for text, image, and video generation, understanding, and reasoning tasks. 
-    Supports Nova Premier, Pro, Lite, Micro, Canvas, Reel, and Sonic models.
+  description: >-
+    The Amazon Nova API provides programmatic access to Amazon Nova foundation models through Amazon Bedrock
+    for text, image, and video generation, understanding, and reasoning tasks. Supports Nova Premier,
+    Pro, Lite, Micro, Canvas, Reel, and Sonic models.
   humanUrl: https://docs.aws.amazon.com/nova/latest/userguide/what-is-nova.html
   baseUrl: https://bedrock-runtime.{region}.amazonaws.com
   tags:
@@ -40,6 +55,22 @@ apis:
     url: https://docs.aws.amazon.com/nova/latest/userguide/getting-started.html
   - type: Pricing
     url: https://aws.amazon.com/bedrock/pricing/
+- aid: amazon-nova:amazon-nova-async-api
+  name: Amazon Nova Async API
+  description: Asynchronous invocation for long-running generation jobs.
+  tags:
+  - Async
+  properties:
+  - type: OpenAPI
+    url: openapi/amazon-nova-async-api-openapi.yml
+- aid: amazon-nova:amazon-nova-inference-api
+  name: Amazon Nova Inference API
+  description: Synchronous and streaming inference operations.
+  tags:
+  - Inference
+  properties:
+  - type: OpenAPI
+    url: openapi/amazon-nova-inference-api-openapi.yml
 common:
 - type: AgenticAccess
   url: agentic-access/amazon-nova-agentic-access.yml
