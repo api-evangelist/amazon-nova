@@ -1,0 +1,16 @@
+{
+  "provider": "amazon-nova",
+  "sources": [
+    "amazon-nova-async-api-openapi.yml",
+    "amazon-nova-inference-api-openapi.yml"
+  ],
+  "outputs": [
+    "amazon-nova-async-api-openapi.yml",
+    "amazon-nova-inference-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
