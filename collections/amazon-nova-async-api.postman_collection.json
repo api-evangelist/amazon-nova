@@ -1,0 +1,258 @@
+{
+  "item": [
+    {
+      "id": "061cd9cd-d322-4fd6-8370-ba1b26751fc5",
+      "name": "Async",
+      "description": {
+        "content": "Asynchronous invocation for long-running generation jobs.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2d1f713a-f960-4353-b7b7-6ace1588c283",
+          "name": "Start an asynchronous Nova invocation",
+          "request": {
+            "name": "Start an asynchronous Nova invocation",
+            "description": {
+              "content": "Used for Nova Reel and other long-running generations.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "async-invoke"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "AWS region identifier supporting the desired Nova model.",
+                  "type": "any",
+                  "value": "{{region}}",
+                  "key": "region"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"modelId\": \"<string>\",\n  \"modelInput\": \"<object>\",\n  \"outputDataConfig\": \"<object>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "06483e05-b135-4de8-ad4c-4d67e0e4740b",
+              "name": "Invocation ARN.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "async-invoke"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "AWS region identifier supporting the desired Nova model.",
+                      "type": "any",
+                      "value": "{{region}}",
+                      "key": "region"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"modelId\": \"<string>\",\n  \"modelInput\": \"<object>\",\n  \"outputDataConfig\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d7015469-e77a-4835-9f50-f22c848d0361",
+          "name": "Get async invocation status",
+          "request": {
+            "name": "Get async invocation status",
+            "description": {},
+            "url": {
+              "path": [
+                "async-invoke",
+                ":invocationArn"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "invocationArn",
+                  "description": "(Required) "
+                },
+                {
+                  "description": "AWS region identifier supporting the desired Nova model.",
+                  "type": "any",
+                  "value": "{{region}}",
+                  "key": "region"
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7e5eec27-9e93-4232-8dc4-92a09e6e250c",
+              "name": "Invocation status.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "async-invoke",
+                    ":invocationArn"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "invocationArn",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": "AWS region identifier supporting the desired Nova model.",
+                      "type": "any",
+                      "value": "{{region}}",
+                      "key": "region"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "AWS region identifier supporting the desired Nova model.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "us-east-1",
+      "key": "region"
+    },
+    {
+      "type": "string",
+      "value": "https://bedrock-runtime.{{region}}.amazonaws.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "58e76093-aef4-4643-bca4-69ce1983a567",
+    "name": "Amazon Nova on Amazon Bedrock Runtime Async API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Invoke Amazon Nova foundation models (Premier, Pro, Lite, Micro, Canvas,\nReel, Sonic) through the Amazon Bedrock Runtime API. Supports\nrequest/response and streaming inference using the Converse and\nInvokeModel families of operations, plus asynchronous invocation for\nlong-running tasks like Nova Reel video generation.\nAll requests are signed with AWS Signature Version 4 (SigV4).\n\n\nContact Support:\n Name: Amazon Web Services",
+      "type": "text/plain"
+    }
+  }
+}

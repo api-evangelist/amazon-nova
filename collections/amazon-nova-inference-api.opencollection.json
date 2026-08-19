@@ -1,0 +1,125 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Amazon Nova on Amazon Bedrock Runtime Async Inference API",
+    "version": "2023-09-30"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Inference",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Invoke a Nova model",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://bedrock-runtime.{region}.amazonaws.com/model/:modelId/invoke",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": ""
+              },
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "modelId",
+                "value": "",
+                "type": "path",
+                "description": "Nova model identifier or inference profile id."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Synchronously invoke a Nova model identified by its model ID\n(for example `amazon.nova-pro-v1:0`, `amazon.nova-canvas-v1:0`,\nor an inference profile id like `us.amazon.nova-lite-v1:0`).\n"
+        },
+        {
+          "info": {
+            "name": "Invoke a Nova model with streaming output",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://bedrock-runtime.{region}.amazonaws.com/model/:modelId/invoke-with-response-stream",
+            "params": [
+              {
+                "name": "modelId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Invoke a Nova model with streaming output"
+        },
+        {
+          "info": {
+            "name": "Converse with a Nova model",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://bedrock-runtime.{region}.amazonaws.com/model/:modelId/converse",
+            "params": [
+              {
+                "name": "modelId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Use the unified Bedrock Converse API for chat-style interactions."
+        },
+        {
+          "info": {
+            "name": "Converse with streaming",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://bedrock-runtime.{region}.amazonaws.com/model/:modelId/converse-stream",
+            "params": [
+              {
+                "name": "modelId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Converse with streaming"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

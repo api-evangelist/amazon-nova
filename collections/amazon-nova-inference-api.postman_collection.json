@@ -1,0 +1,564 @@
+{
+  "item": [
+    {
+      "id": "a3414326-c180-430d-be26-d2a91301b56b",
+      "name": "Inference",
+      "description": {
+        "content": "Synchronous and streaming inference operations.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c0f83106-ff2d-49c7-86cd-0c5aa79d9242",
+          "name": "Invoke a Nova model",
+          "request": {
+            "name": "Invoke a Nova model",
+            "description": {
+              "content": "Synchronously invoke a Nova model identified by its model ID\n(for example `amazon.nova-pro-v1:0`, `amazon.nova-canvas-v1:0`,\nor an inference profile id like `us.amazon.nova-lite-v1:0`).\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "model",
+                ":modelId",
+                "invoke"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "modelId",
+                  "description": "(Required) Nova model identifier or inference profile id."
+                },
+                {
+                  "description": "AWS region identifier supporting the desired Nova model.",
+                  "type": "any",
+                  "value": "{{region}}",
+                  "key": "region"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "<object>",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7c0f5b68-b813-412e-ab1e-7103d1c0726b",
+              "name": "Model output.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "model",
+                    ":modelId",
+                    "invoke"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "modelId",
+                      "description": "(Required) Nova model identifier or inference profile id."
+                    },
+                    {
+                      "description": "AWS region identifier supporting the desired Nova model.",
+                      "type": "any",
+                      "value": "{{region}}",
+                      "key": "region"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<object>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "23688cc3-dd79-47d8-813c-7aa0529f8a4e",
+          "name": "Invoke a Nova model with streaming output",
+          "request": {
+            "name": "Invoke a Nova model with streaming output",
+            "description": {},
+            "url": {
+              "path": [
+                "model",
+                ":modelId",
+                "invoke-with-response-stream"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "modelId",
+                  "description": "(Required) "
+                },
+                {
+                  "description": "AWS region identifier supporting the desired Nova model.",
+                  "type": "any",
+                  "value": "{{region}}",
+                  "key": "region"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "<object>",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "12364e7e-11ac-4fbd-b657-611bf1f8758a",
+              "name": "Event stream of model output chunks.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "model",
+                    ":modelId",
+                    "invoke-with-response-stream"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "modelId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": "AWS region identifier supporting the desired Nova model.",
+                      "type": "any",
+                      "value": "{{region}}",
+                      "key": "region"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<object>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cd0810d6-7487-4cd6-9c35-8ba3c77760e0",
+          "name": "Converse with a Nova model",
+          "request": {
+            "name": "Converse with a Nova model",
+            "description": {
+              "content": "Use the unified Bedrock Converse API for chat-style interactions.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "model",
+                ":modelId",
+                "converse"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "modelId",
+                  "description": "(Required) "
+                },
+                {
+                  "description": "AWS region identifier supporting the desired Nova model.",
+                  "type": "any",
+                  "value": "{{region}}",
+                  "key": "region"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"messages\": [\n    \"<object>\",\n    \"<object>\"\n  ],\n  \"system\": [\n    \"<object>\",\n    \"<object>\"\n  ],\n  \"inferenceConfig\": \"<object>\",\n  \"toolConfig\": \"<object>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c14c27cf-15e6-4f77-8159-2b12ed54966d",
+              "name": "Conversation response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "model",
+                    ":modelId",
+                    "converse"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "modelId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": "AWS region identifier supporting the desired Nova model.",
+                      "type": "any",
+                      "value": "{{region}}",
+                      "key": "region"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"messages\": [\n    \"<object>\",\n    \"<object>\"\n  ],\n  \"system\": [\n    \"<object>\",\n    \"<object>\"\n  ],\n  \"inferenceConfig\": \"<object>\",\n  \"toolConfig\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "282a0046-043d-449a-bcbd-afec2ea0ede8",
+          "name": "Converse with streaming",
+          "request": {
+            "name": "Converse with streaming",
+            "description": {},
+            "url": {
+              "path": [
+                "model",
+                ":modelId",
+                "converse-stream"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "modelId",
+                  "description": "(Required) "
+                },
+                {
+                  "description": "AWS region identifier supporting the desired Nova model.",
+                  "type": "any",
+                  "value": "{{region}}",
+                  "key": "region"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "<object>",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "51394075-a0af-4f1f-a06f-da7c99c9479a",
+              "name": "Event stream of conversation chunks.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "model",
+                    ":modelId",
+                    "converse-stream"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "modelId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": "AWS region identifier supporting the desired Nova model.",
+                      "type": "any",
+                      "value": "{{region}}",
+                      "key": "region"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<object>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "AWS region identifier supporting the desired Nova model.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "us-east-1",
+      "key": "region"
+    },
+    {
+      "type": "string",
+      "value": "https://bedrock-runtime.{{region}}.amazonaws.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "17644d24-dae7-4515-99ca-3d9633a2e75e",
+    "name": "Amazon Nova on Amazon Bedrock Runtime Async Inference API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Invoke Amazon Nova foundation models (Premier, Pro, Lite, Micro, Canvas,\nReel, Sonic) through the Amazon Bedrock Runtime API. Supports\nrequest/response and streaming inference using the Converse and\nInvokeModel families of operations, plus asynchronous invocation for\nlong-running tasks like Nova Reel video generation.\nAll requests are signed with AWS Signature Version 4 (SigV4).\n\n\nContact Support:\n Name: Amazon Web Services",
+      "type": "text/plain"
+    }
+  }
+}

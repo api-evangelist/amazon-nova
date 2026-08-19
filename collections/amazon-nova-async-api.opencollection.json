@@ -1,0 +1,59 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Amazon Nova on Amazon Bedrock Runtime Async API",
+    "version": "2023-09-30"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Async",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Start an asynchronous Nova invocation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://bedrock-runtime.{region}.amazonaws.com/async-invoke",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Used for Nova Reel and other long-running generations."
+        },
+        {
+          "info": {
+            "name": "Get async invocation status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://bedrock-runtime.{region}.amazonaws.com/async-invoke/:invocationArn",
+            "params": [
+              {
+                "name": "invocationArn",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get async invocation status"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
