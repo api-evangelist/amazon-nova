@@ -23,6 +23,15 @@ tags:
 - AWS
 - Foundation Models
 - Generative AI
+- Image-Generation
+- Machine-Learning
+- Multi-Modal
+- Speech
+- Video Generation
+tags_raw:
+- AWS
+- Foundation Models
+- Generative AI
 - Image Generation
 - Machine Learning
 - Multimodal
@@ -43,6 +52,10 @@ apis:
   humanUrl: https://docs.aws.amazon.com/nova/latest/userguide/what-is-nova.html
   baseUrl: https://bedrock-runtime.{region}.amazonaws.com
   tags:
+  - Foundation Models
+  - Generative AI
+  - Multi-Modal
+  tags_raw:
   - Foundation Models
   - Generative AI
   - Multimodal
