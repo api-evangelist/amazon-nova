@@ -37,7 +37,7 @@ tags:
 - Generative AI
 - Image-Generation
 - Machine-Learning
-- Multimodal
+- Multi-Modal
 - Speech
 - Video Generation
 tags_raw:
@@ -66,7 +66,7 @@ apis:
   tags:
   - Foundation Models
   - Generative AI
-  - Multimodal
+  - Multi-Modal
   tags_raw:
   - Foundation Models
   - Generative AI
