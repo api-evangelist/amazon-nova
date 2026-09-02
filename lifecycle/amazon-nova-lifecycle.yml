@@ -1,0 +1,75 @@
+generated: '2026-09-01'
+method: searched
+source:
+- https://docs.aws.amazon.com/bedrock/latest/userguide/model-lifecycle.html
+- https://docs.aws.amazon.com/nova/latest/userguide/doc-history.html
+- https://docs.aws.amazon.com/nova/latest/userguide/what-is-nova.html
+versioning:
+  scheme: model-id-version
+  current: '2023-09-30'
+  api_version_note: >-
+    The Amazon Bedrock Runtime API itself is pinned at the 2023-09-30 service version and has not
+    been rev'd. Versioning that matters to a Nova caller happens in the MODEL ID
+    (amazon.nova-pro-v1:0, amazon.nova-reel-v1:1), and in the model family generation — Amazon
+    Nova 2 ships as a separate documentation set and separate model ids.
+  docs: https://docs.aws.amazon.com/bedrock/latest/userguide/model-lifecycle.html
+deprecation:
+  policy_url: https://docs.aws.amazon.com/bedrock/latest/userguide/model-lifecycle.html
+  sunset_header: false
+  states: [Active, Legacy, EOL]
+  guarantees:
+  - A model stays in the Legacy state for at least 6 months before its EOL date.
+  - Customers are notified when a model provider moves a model to Legacy.
+  - New customers cannot start using a Legacy model; existing customers may lose access after 15 days of inactivity.
+  - >-
+    For models with EOL dates after 2026-02-01, after a minimum of 3 months in Legacy the model
+    enters a public extended access period of at least 3 more months, at provider-set (higher) pricing.
+  - After the EOL date requests to that model version fail; migration is never automatic.
+  runtime_signal: >-
+    The state is machine-readable — GetFoundationModel and ListFoundationModels return it in the
+    `modelLifecycle` field. There is no RFC 8594 Sunset/Deprecation response header on the
+    inference call itself, so an agent cannot learn a model is Legacy from an invoke response.
+deprecated_models:
+- model: Nova Premier
+  model_id: amazon.nova-premier-v1:0
+  state: Legacy
+  legacy_date: '2026-03-13'
+  eol_date: '2026-09-14'
+  regions: [us-east-1, us-east-2, us-west-2]
+- model: Nova Sonic
+  model_id: amazon.nova-sonic-v1:0
+  state: Legacy
+  legacy_date: '2026-03-13'
+  eol_date: '2026-09-14'
+  regions: [ap-northeast-1, eu-north-1, us-east-1]
+- model: Nova Canvas
+  model_id: amazon.nova-canvas-v1:0
+  state: Legacy
+  legacy_date: '2026-03-30'
+  eol_date: '2026-09-30'
+  regions: [ap-northeast-1, eu-west-1, us-east-1]
+- model: Nova Reel
+  model_id: amazon.nova-reel-v1:0
+  state: Legacy
+  legacy_date: '2026-03-30'
+  eol_date: '2026-09-30'
+  regions: [ap-northeast-1, eu-west-1, us-east-1]
+- model: Nova Reel
+  model_id: amazon.nova-reel-v1:1
+  state: Legacy
+  legacy_date: '2026-03-30'
+  eol_date: '2026-09-30'
+  regions: [us-east-1]
+deprecated_operations: []
+finding: >-
+  Five of the seven Amazon Nova v1 model ids are in the Legacy state with EOL dates inside
+  September 2026 — Premier and Sonic on 2026-09-14, Canvas and both Reel versions on 2026-09-30.
+  As of this pass (2026-09-01) an integration written against Nova Premier, Sonic, Canvas or Reel
+  v1 has between 13 and 29 days of guaranteed life left. Nova Pro, Lite and Micro remain Active,
+  and the Amazon Nova 2 family (Nova 2 Lite, Nova 2 Pro, Nova 2 Omni, Nova Sonic 2.0) is the
+  forward path.
+sla:
+  url: https://aws.amazon.com/bedrock/sla/
+  note: Amazon Bedrock is covered by a published AWS service level agreement.
+status_page: https://health.aws.amazon.com/health/status
+changelog: https://docs.aws.amazon.com/nova/latest/userguide/doc-history.html

@@ -1,0 +1,103 @@
+generated: '2026-09-01'
+method: searched
+source:
+- https://raw.githubusercontent.com/aws/api-models-aws/main/models/bedrock-runtime/service/2023-09-30/bedrock-runtime-2023-09-30.json
+- https://aws.amazon.com/compliance/
+- https://aws.amazon.com/.well-known/security.txt
+- https://aws-mcp.us-east-1.api.aws/.well-known/oauth-protected-resource
+standards:
+- id: aws-sigv4
+  conforms: true
+  evidence: >-
+    Service model declares aws.auth#sigv4 with signing name `bedrock`; every Bedrock Runtime
+    request is SigV4-signed.
+- id: http-bearer-auth
+  conforms: true
+  evidence: >-
+    Service model declares smithy.api#httpBearerAuth alongside SigV4 — the Amazon Bedrock API key
+    path.
+- id: oauth2
+  conforms: true
+  scope: agent-surface-only
+  evidence: >-
+    The AWS MCP Server at https://aws-mcp.us-east-1.api.aws/mcp is OAuth-protected; its
+    authorization server https://us-east-1.oauth.signin.aws publishes RFC 8414 metadata with
+    authorization_code + refresh_token grants and S256 PKCE. The Bedrock Runtime API itself does
+    NOT use OAuth.
+- id: rfc8414-oauth-authorization-server-metadata
+  conforms: true
+  evidence: 200 at https://us-east-1.oauth.signin.aws/.well-known/oauth-authorization-server
+- id: rfc9728-oauth-protected-resource-metadata
+  conforms: true
+  evidence: 200 at https://aws-mcp.us-east-1.api.aws/.well-known/oauth-protected-resource
+- id: rfc7636-pkce
+  conforms: true
+  evidence: code_challenge_methods_supported ["S256"] in the authorization server metadata.
+- id: rfc9116-security-txt
+  conforms: true
+  evidence: 200 at https://aws.amazon.com/.well-known/security.txt with Policy and Contact fields.
+- id: model-context-protocol
+  conforms: true
+  evidence: >-
+    tools/list over JSON-RPC 2.0 returned HTTP 200 with 9 tools at
+    https://aws-mcp.us-east-1.api.aws/mcp on 2026-09-01.
+- id: openapi
+  conforms: true
+  evidence: openapi/ carries OpenAPI 3.2.0 descriptions of the Nova inference and async surfaces.
+- id: smithy-2.0
+  conforms: true
+  evidence: >-
+    Amazon publishes the authoritative bedrock-runtime contract as a Smithy 2.0 model in
+    github.com/aws/api-models-aws — the first-party machine-readable source this repo's derived
+    artifacts are reconciled against.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    Errors are AWS restJson1 — a `message` body plus x-amzn-ErrorType — not application/problem+json.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: >-
+    Model deprecation is real and dated but is only exposed through the modelLifecycle field on
+    GetFoundationModel; no Sunset or Deprecation response header is emitted on inference calls.
+- id: rfc9331-ratelimit-headers
+  conforms: false
+  evidence: No RateLimit-*, X-RateLimit-* or Retry-After headers are returned on 429.
+- id: idempotency-key
+  conforms: partial
+  evidence: >-
+    StartAsyncInvoke carries clientRequestToken with the smithy.api#idempotencyToken trait; the
+    synchronous inference operations carry no idempotency contract.
+- id: pagination
+  conforms: true
+  evidence: Cursor pagination (maxResults / nextToken) on ListAsyncInvokes.
+- id: cloudevents
+  conforms: false
+  evidence: Bedrock job state changes are delivered as native Amazon EventBridge events, not CloudEvents.
+- id: asyncapi
+  conforms: false
+  evidence: No AsyncAPI document is published for the Bedrock EventBridge event surface.
+- id: graphql
+  conforms: false
+- id: grpc
+  conforms: false
+  evidence: restJson1 over http/1.1 and h2; bidirectional streaming uses vnd.amazon.eventstream, not gRPC.
+- id: soap-wsdl
+  conforms: false
+domain_standards:
+- id: ai-model-inference
+  note: >-
+    Reward-only check, recorded honestly as unmet. There is no ratified cross-vendor standard for
+    foundation-model inference that Amazon Nova declares in its contract. Nova does not expose an
+    OpenAI-compatible /v1/chat/completions surface on the Bedrock Runtime endpoint, and the
+    Converse API is Amazon's own unified message shape rather than an industry schema. No
+    domain-standard signature (SCIM URN, OData $metadata, OpenRTB, HL7, ISO 20022 or similar)
+    appears anywhere in the spec.
+  conforms: false
+compliance:
+  published: true
+  url: https://aws.amazon.com/compliance/
+  certifications: [SOC 2, ISO 27001, PCI DSS, HIPAA, FedRAMP, GDPR, FIPS 140]
+  scope_note: >-
+    Certifications are AWS-wide programs; Amazon Bedrock (and therefore Amazon Nova) is listed in
+    AWS Services in Scope by Compliance Program.
+  services_in_scope: https://aws.amazon.com/compliance/services-in-scope/

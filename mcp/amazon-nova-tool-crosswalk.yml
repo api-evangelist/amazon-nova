@@ -1,0 +1,95 @@
+generated: '2026-09-01'
+method: derived
+source:
+- mcp/amazon-nova-mcp.yml
+- openapi/amazon-nova-inference-api-openapi.yml
+- openapi/amazon-nova-async-api-openapi.yml
+- https://raw.githubusercontent.com/aws/api-models-aws/main/models/bedrock-runtime/service/2023-09-30/bedrock-runtime-2023-09-30.json
+note: >-
+  Amazon Nova's MCP and REST surfaces barely overlap, and the crosswalk exists to say so plainly.
+  The AWS MCP Server does not expose a single tool that maps onto a Bedrock Runtime operation —
+  every one of its nine tools is control-plane, documentation, or generic-execution. An agent
+  reaches Nova through it only INDIRECTLY, by asking run_script/call_aws to shell out to the
+  bedrock-runtime CLI or boto3 client. The only tools that bind to a real Nova operation come from
+  the deprecated Nova Canvas stdio server.
+surfaces:
+  openapi:
+  - file: openapi/amazon-nova-inference-api-openapi.yml
+    operations: [invokeModel, invokeModelWithResponseStream, converse, converseStream]
+  - file: openapi/amazon-nova-async-api-openapi.yml
+    operations: [startAsyncInvoke, getAsyncInvoke]
+  graphql: null
+  mcp:
+    url: https://aws-mcp.us-east-1.api.aws/mcp
+    gated: false
+    note: >-
+      tools/list returned HTTP 200 anonymously on 2026-09-01, so tool names and inputSchemas are
+      real, not inferred. Actually CALLING the tools requires OAuth against
+      https://us-east-1.oauth.signin.aws.
+  mcp_local:
+    package: awslabs.nova-canvas-mcp-server
+    gated: false
+    status: deprecated
+crosswalk:
+- tool: generate_image
+  server: awslabs.nova-canvas-mcp-server
+  category: image-generation
+  rest: [invokeModel]
+  binding: rest
+  confidence: high
+  note: >-
+    Wraps a single POST /model/{modelId}/invoke against amazon.nova-canvas-v1:0 with a
+    TEXT_IMAGE taskType body. The tool's real input contract is the invokeModel requestBody.
+- tool: generate_image_with_colors
+  server: awslabs.nova-canvas-mcp-server
+  category: image-generation
+  rest: [invokeModel]
+  binding: rest
+  confidence: high
+  note: Same operation, COLOR_GUIDED_GENERATION taskType with a colors[] palette.
+mcp_only:
+- tool: aws___call_aws
+  reason: Generic AWS CLI execution. No Bedrock Runtime operation backs it; it can reach every AWS API.
+- tool: aws___run_script
+  reason: Sandboxed Python with boto3. Composite execution surface, not a single REST operation.
+- tool: aws___get_presigned_url
+  reason: Amazon S3 pre-signing. Belongs to S3, not to the Bedrock Runtime contract.
+- tool: aws___get_tasks
+  reason: AWS MCP Server task polling. Server-side construct with no public REST equivalent.
+- tool: aws___get_regional_availability
+  reason: AWS platform metadata, not a bedrock-runtime operation.
+- tool: aws___list_regions
+  reason: AWS platform metadata, not a bedrock-runtime operation.
+- tool: aws___read_documentation
+  reason: Documentation retrieval over docs.aws.amazon.com. No REST API operation.
+- tool: aws___search_documentation
+  reason: Documentation search. No REST API operation.
+- tool: aws___retrieve_skill
+  reason: Agent Skill retrieval from the Agent Toolkit for AWS catalog. No REST API operation.
+rest_only:
+- capability: streaming inference
+  operations: [invokeModelWithResponseStream, converseStream]
+  reason: No MCP tool exposes a streaming Nova invocation.
+- capability: unified message inference
+  operations: [converse]
+  reason: >-
+    The Converse API is the recommended way to call Nova understanding models and has no MCP tool
+    at all — the single largest divergence between the two surfaces.
+- capability: asynchronous generation
+  operations: [startAsyncInvoke, getAsyncInvoke]
+  reason: >-
+    Nova Reel video generation runs exclusively through async invoke; no MCP tool starts or polls
+    one.
+- capability: token accounting and guardrails
+  operations: [CountTokens, ApplyGuardrail, InvokeGuardrailChecks]
+  reason: >-
+    Present in the first-party AWS Smithy model for bedrock-runtime but not in this repo's
+    OpenAPI and not exposed by any MCP tool.
+coverage:
+  tools_named: 11
+  tools_bound_to_rest: 2
+  mcp_only: 9
+  rest_ops_total: 6
+  rest_ops_with_a_tool: 1
+  note: >-
+    rest_ops_with_a_tool is 1 because both bound tools resolve to the same invokeModel operation.

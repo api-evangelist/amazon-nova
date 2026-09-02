@@ -1,0 +1,55 @@
+generated: '2026-09-01'
+method: searched
+source:
+- https://docs.aws.amazon.com/cli/latest/reference/bedrock-runtime/
+- https://docs.aws.amazon.com/nova/latest/userguide/getting-started-api.html
+- https://docs.aws.amazon.com/agent-toolkit/latest/userguide/aws-cli.html
+name: AWS CLI
+note: >-
+  There is no `nova` binary. Amazon Nova is driven from the AWS CLI's `bedrock-runtime` (data
+  plane) and `bedrock` (control plane) command groups, which is also how the AWS MCP Server's
+  call_aws / run_script tools reach Nova. The AWS CLI v2 additionally ships an `agent-toolkit`
+  command group for installing AWS-published Agent Skills.
+install:
+- method: macos-pkg
+  command: 'curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg" && sudo installer -pkg AWSCLIV2.pkg -target /'
+- method: linux
+  command: 'curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && unzip awscliv2.zip && sudo ./aws/install'
+- method: homebrew
+  command: brew install awscli
+commands:
+- group: bedrock-runtime
+  description: The Amazon Nova data plane — invoking models.
+  commands:
+  - name: aws bedrock-runtime invoke-model
+    operation: invokeModel
+  - name: aws bedrock-runtime invoke-model-with-response-stream
+    operation: invokeModelWithResponseStream
+  - name: aws bedrock-runtime converse
+    operation: converse
+  - name: aws bedrock-runtime converse-stream
+    operation: converseStream
+  - name: aws bedrock-runtime start-async-invoke
+    operation: startAsyncInvoke
+  - name: aws bedrock-runtime get-async-invoke
+    operation: getAsyncInvoke
+  - name: aws bedrock-runtime list-async-invokes
+  - name: aws bedrock-runtime count-tokens
+  - name: aws bedrock-runtime apply-guardrail
+- group: bedrock
+  description: Control plane — discovering Nova models and reading their lifecycle state.
+  commands:
+  - name: aws bedrock list-foundation-models
+  - name: aws bedrock get-foundation-model
+    note: Returns the modelLifecycle field (Active / Legacy / EOL).
+- group: agent-toolkit
+  description: Install and search AWS-published Agent Skills for coding agents.
+  commands:
+  - name: aws configure agent-toolkit
+  - name: aws agent-toolkit search-skills --search-query nova
+  - name: aws agent-toolkit install-skills
+flows:
+- name: Call Nova Pro with the Converse API
+  command: 'aws bedrock-runtime converse --model-id amazon.nova-pro-v1:0 --messages ''[{"role":"user","content":[{"text":"Hello"}]}]'''
+- name: Check whether a Nova model is Legacy before integrating
+  command: aws bedrock get-foundation-model --model-identifier amazon.nova-premier-v1:0 --query modelDetails.modelLifecycle

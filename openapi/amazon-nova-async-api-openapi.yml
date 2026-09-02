@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: Amazon Nova on Amazon Bedrock Runtime Async API
   version: '2023-09-30'

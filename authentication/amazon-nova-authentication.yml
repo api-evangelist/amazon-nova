@@ -1,16 +1,61 @@
-generated: '2026-07-11'
-method: derived
+generated: '2026-09-01'
+method: searched
 source: openapi/amazon-nova-openapi.yml
+docs:
+- https://docs.aws.amazon.com/bedrock/latest/userguide/api-setup.html
+- https://docs.aws.amazon.com/nova/latest/userguide/getting-started-api.html
+authoritative_contract: https://github.com/aws/api-models-aws/blob/main/models/bedrock-runtime/service/2023-09-30/bedrock-runtime-2023-09-30.json
+note: >-
+  Upgraded from derived to searched on 2026-09-01. The prior derivation read only our own OpenAPI
+  and recorded a single apiKey scheme named SigV4, which understates the contract in two ways:
+  SigV4 is a request-signing scheme rather than a static header key, and Amazon's own Smithy model
+  declares a SECOND supported scheme — smithy.api#httpBearerAuth, the Amazon Bedrock API key —
+  that our spec does not carry at all.
 summary:
-  types:
-  - apiKey
-  api_key_in:
-  - header
+  types: [aws-sigv4, http-bearer]
+  api_key_in: [header]
+  oauth2_flows: []
+  service_scoped_oauth: false
 schemes:
 - name: SigV4
-  type: apiKey
+  type: aws-sigv4
   in: header
   parameter: Authorization
-  description: AWS Signature Version 4 signed request.
-  sources:
-  - openapi/amazon-nova-openapi.yml
+  signing_name: bedrock
+  smithy_trait: aws.auth#sigv4
+  description: >-
+    AWS Signature Version 4. Every Bedrock Runtime request is signed with the caller's AWS access
+    key id and secret, scoped by region and the `bedrock` signing name. Credentials resolve from
+    IAM roles, instance/task metadata, SSO, or a static key pair; the AWS SDKs and CLI do the
+    signing.
+  sources: [openapi/amazon-nova-openapi.yml, aws/api-models-aws bedrock-runtime 2023-09-30]
+- name: BedrockApiKey
+  type: http
+  scheme: bearer
+  in: header
+  parameter: Authorization
+  smithy_trait: smithy.api#httpBearerAuth
+  description: >-
+    Amazon Bedrock API key. A long- or short-term bearer token generated in the Amazon Bedrock
+    console that authenticates a Nova call without SigV4 signing — the path most third-party
+    OpenAI-style clients use. Declared in Amazon's service model as a first-class alternative to
+    SigV4.
+  sources: [aws/api-models-aws bedrock-runtime 2023-09-30]
+authorization:
+  model: aws-iam
+  actions:
+  - bedrock:InvokeModel
+  - bedrock:InvokeModelWithResponseStream
+  - bedrock:Converse
+  - bedrock:ConverseStream
+  - bedrock:StartAsyncInvoke
+  - bedrock:GetAsyncInvoke
+  - bedrock:ListAsyncInvokes
+  resource_form: 'arn:aws:bedrock:<region>::foundation-model/amazon.nova-<variant>-v1:0'
+  note: >-
+    Access is IAM policy, not OAuth scopes. There is no scopes/ artifact for Amazon Nova because
+    the API declares no oauth2 security scheme — the only OAuth in this provider's orbit belongs
+    to the AWS MCP Server, recorded in mcp/ and conformance/.
+  additional_gate: >-
+    Beyond IAM, an account must explicitly enable model access for each Nova model in the Amazon
+    Bedrock console before any credential can invoke it.

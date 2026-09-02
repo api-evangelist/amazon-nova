@@ -1,0 +1,113 @@
+generated: '2026-09-01'
+method: searched
+format: aws-json-error
+source:
+- https://raw.githubusercontent.com/aws/api-models-aws/main/models/bedrock-runtime/service/2023-09-30/bedrock-runtime-2023-09-30.json
+- https://docs.aws.amazon.com/bedrock/latest/APIReference/CommonErrors.html
+- openapi/amazon-nova-inference-api-openapi.yml
+- openapi/amazon-nova-async-api-openapi.yml
+note: >-
+  NOT RFC 9457. Amazon Bedrock Runtime uses the AWS restJson1 protocol: errors are a JSON body
+  carrying a single `message` field, with the error TYPE carried in the `x-amzn-ErrorType`
+  response header (and, for AWS SDK callers, surfaced as a typed exception). The catalog below is
+  taken verbatim from the first-party AWS Smithy model published at github.com/aws/api-models-aws
+  — every status code, retryable flag and description is Amazon's own, not inferred from our
+  OpenAPI.
+envelope:
+  content_type: application/json
+  body_fields: [message]
+  type_header: x-amzn-ErrorType
+  request_id_header: x-amzn-RequestId
+  protocol: aws.protocols#restJson1
+problems:
+- status: 400
+  type: ValidationException
+  title: Input fails to satisfy Amazon Bedrock constraints
+  fault: client
+  retryable: false
+  remediation: >-
+    Fix the request body or model id. For Nova this most often means an unsupported taskType,
+    an image/video payload above the modality limit, or a modelId that is not enabled for the
+    account in this region.
+  source_operation: openapi/amazon-nova-inference-api-openapi.yml#invokeModel
+- status: 400
+  type: ServiceQuotaExceededException
+  title: Request exceeds the service quota for the account
+  fault: client
+  retryable: false
+  remediation: Request a quota increase in the Service Quotas console. See rate-limits/amazon-nova-rate-limits.yml.
+  source_operation: openapi/amazon-nova-inference-api-openapi.yml#invokeModel
+- status: 400
+  type: ConflictException
+  title: Conflict while performing the operation
+  fault: client
+  retryable: false
+  remediation: >-
+    Raised by StartAsyncInvoke when a clientRequestToken is reused with different parameters.
+    Re-send with the original parameters, or issue a fresh token.
+  source_operation: openapi/amazon-nova-async-api-openapi.yml#startAsyncInvoke
+- status: 403
+  type: AccessDeniedException
+  title: Insufficient permissions to perform the request
+  fault: client
+  retryable: false
+  remediation: >-
+    Grant bedrock:InvokeModel / bedrock:InvokeModelWithResponseStream on the Nova model ARN, and
+    enable model access for the account in the Amazon Bedrock console.
+- status: 404
+  type: ResourceNotFoundException
+  title: The specified resource ARN was not found
+  fault: client
+  retryable: false
+  remediation: Verify the model id, inference profile id, or async invocation ARN.
+- status: 408
+  type: ModelTimeoutException
+  title: Processing time exceeded the model timeout length
+  fault: client
+  retryable: false
+  remediation: >-
+    Shorten the prompt or requested output, or move a long-running Nova Reel generation to
+    StartAsyncInvoke.
+- status: 424
+  type: ModelErrorException
+  title: The request failed due to an error while processing the model
+  fault: client
+  retryable: false
+  remediation: Inspect originalStatusCode / resourceName on the exception; retry is not automatic.
+- status: 424
+  type: ModelStreamErrorException
+  title: An error occurred while streaming the response
+  fault: client
+  retryable: false
+  remediation: Retry the streaming request.
+  source_operation: openapi/amazon-nova-inference-api-openapi.yml#invokeModelWithResponseStream
+- status: 429
+  type: ThrottlingException
+  title: Request denied for exceeding account quotas for Amazon Bedrock
+  fault: client
+  retryable: false
+  remediation: >-
+    Back off exponentially with jitter. This is the per-model requests-per-minute or
+    tokens-per-minute quota, not a per-key rate limit.
+- status: 429
+  type: ModelNotReadyException
+  title: The model is not ready to serve inference requests
+  fault: client
+  retryable: true
+  remediation: >-
+    The only error Amazon marks retryable in the model. AWS SDKs retry it automatically; a raw
+    HTTP client must implement the retry itself.
+- status: 500
+  type: InternalServerException
+  title: An internal server error occurred
+  fault: server
+  retryable: false
+- status: 503
+  type: ServiceUnavailableException
+  title: The service is not currently available
+  fault: server
+  retryable: false
+summary:
+  problem_count: 12
+  retryable_count: 1
+  rfc9457: false

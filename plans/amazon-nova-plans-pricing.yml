@@ -4,144 +4,234 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Amazon Nova
 providerId: amazon-nova
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
+modified: '2026-09-01'
+generated: '2026-09-01'
+method: probed
+source: https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json
+docs: https://aws.amazon.com/bedrock/pricing/
+price_list:
+  api: AWS Price List Bulk API
+  offer_code: AmazonBedrock
+  region: us-east-1
+  version: '20260901205051'
+  publication_date: '2026-09-01T20:50:51Z'
+  currency: USD
+description: >-
+  Amazon Nova has no plan tiers. It is pure consumption pricing, metered per 1,000 tokens (or per
+  image / per video), published machine-readably in the AWS Price List Bulk API. Every price below
+  was read from that endpoint on 2026-09-01 for us-east-1 on-demand usage. This file REPLACES an
+  API Evangelist scaffold dated 2026-05-04 that invented a Free / Professional / Enterprise ladder
+  with placeholder quotas; Amazon publishes no such thing for Nova.
 tags:
-  - AWS
-  - Foundation Models
-  - Generative AI
-  - Image Generation
-  - Machine Learning
-  - Multimodal
-  - Speech
-  - Video Generation
-description: Machine-readable plans and pricing scaffold for this API provider. Conforms to the API Commons
-  Plans schema. Tier limits and prices are scaffold defaults; replace with provider-published values.
-plans:
-  - id: amazon-nova-free
-    name: Free
-    type: freemium
-    description: Free entry tier for the Amazon Nova API surface. Intended for evaluation, prototyping,
-      and low-volume integrations. Real limits and pricing must be reconciled with the provider's published
-      plan documentation.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota across all included endpoints
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 1000
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the free tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 10
-        timeFrame: minute
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-    elements:
-      - name: Public Documentation
-      - name: Community Support
-      - name: Sandbox Access
-      - name: Amazon Nova API
-  - id: amazon-nova-pro
-    name: Professional
-    type: paid
-    description: Production tier for Amazon Nova. Provides higher quotas, priority support, and access
-      to the broader API portfolio. Pricing placeholder; align with the provider's pricing page.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 100000
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1
-        price: TBD
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the professional tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 100
-        timeFrame: minute
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Overage
-        description: Per-request price after monthly quota is exceeded
-        name: overage
-        type: metered
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1000
-        price: TBD
-        userMultiplied: false
-    elements:
-      - name: All Production Endpoints
-      - name: Email Support
-      - name: SLA Targets
-      - name: Webhook Subscriptions
-      - name: Amazon Nova API
-  - id: amazon-nova-enterprise
-    name: Enterprise
-    type: enterprise
-    description: Custom-negotiated tier for Amazon Nova. Includes dedicated capacity, contractual SLAs,
-      security review, data residency options, and named technical account management.
-    entries:
-      - label: API Requests
-        description: Negotiated request volume; -1 indicates uncapped subject to fair use
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: configurable
-        domains: []
-        unit: 1
-        price: custom
-        userMultiplied: false
-      - label: Rate Limit
-        description: Negotiated burst and steady-state rate
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 1000
-        timeFrame: minute
-        geo: configurable
-        domains: []
-        unit: 1
-        price: custom
-        userMultiplied: false
-    elements:
-      - name: Unlimited / Negotiated Volume
-      - name: 24/7 Dedicated Support
-      - name: Contractual SLA
-      - name: Security & Compliance Review
-      - name: Dedicated Account Manager
-      - name: Custom Data Residency
-      - name: Amazon Nova API
+- AWS
+- Foundation Models
+- Generative AI
+- Usage Based Pricing
+plan_count: 0
+pricing_model: pay-as-you-go
+purchase_modes:
+- name: On-Demand
+  description: Per-token / per-image / per-video, no commitment. The prices listed below.
+- name: Flex
+  description: Lower-priority throughput at roughly half the on-demand token price.
+- name: Priority
+  description: Higher-priority throughput at roughly 1.75x the on-demand token price.
+- name: Batch
+  description: Offline batch inference, discounted against on-demand.
+- name: Provisioned Throughput
+  description: >-
+    Reserved model units billed hourly. us-east-1 model units for Nova Micro / Lite / Pro /
+    Canvas price at 60.50 USD/hour with no commitment, 55.00 USD/hour on a 1-month commitment and
+    30.25 USD/hour on a 6-month commitment.
+free_tier:
+  available: false
+  note: >-
+    Amazon Bedrock has no perpetual free tier for Nova inference. New AWS accounts may receive
+    general AWS Free Tier credits, but no Nova-specific free allowance is published.
+pricing:
+- model: Amazon Nova Micro
+  model_id: amazon.nova-micro-v1:0
+  entries:
+  - metric: input_tokens
+    unit: 1K tokens
+    price: '0.000035'
+  - metric: output_tokens
+    unit: 1K tokens
+    price: '0.000140'
+- model: Amazon Nova Lite
+  model_id: amazon.nova-lite-v1:0
+  entries:
+  - metric: input_tokens
+    unit: 1K tokens
+    price: '0.000060'
+  - metric: output_tokens
+    unit: 1K tokens
+    price: '0.000240'
+- model: Amazon Nova Pro
+  model_id: amazon.nova-pro-v1:0
+  entries:
+  - metric: input_tokens
+    unit: 1K tokens
+    price: '0.000800'
+  - metric: output_tokens
+    unit: 1K tokens
+    price: '0.003200'
+  - metric: input_tokens_flex
+    unit: 1K tokens
+    price: '0.000400'
+  - metric: output_tokens_flex
+    unit: 1K tokens
+    price: '0.001600'
+  - metric: input_tokens_priority
+    unit: 1K tokens
+    price: '0.001400'
+  - metric: output_tokens_priority
+    unit: 1K tokens
+    price: '0.005600'
+  - metric: input_tokens_latency_optimized
+    unit: 1K tokens
+    price: '0.001000'
+  - metric: output_tokens_latency_optimized
+    unit: 1K tokens
+    price: '0.004000'
+- model: Amazon Nova Premier
+  model_id: amazon.nova-premier-v1:0
+  lifecycle: Legacy — EOL 2026-09-14
+  entries:
+  - metric: input_tokens
+    unit: 1K tokens
+    price: '0.002500'
+  - metric: output_tokens
+    unit: 1K tokens
+    price: '0.012500'
+  - metric: web_grounding
+    unit: request
+    price: '0.030000'
+- model: Amazon Nova Canvas
+  model_id: amazon.nova-canvas-v1:0
+  lifecycle: Legacy — EOL 2026-09-30
+  entries:
+  - metric: text_to_image_1024_standard
+    unit: image
+    price: '0.040000'
+  - metric: text_to_image_1024_premium
+    unit: image
+    price: '0.060000'
+  - metric: text_to_image_2048_standard
+    unit: image
+    price: '0.060000'
+  - metric: text_to_image_2048_premium
+    unit: image
+    price: '0.080000'
+  - metric: image_to_image_1024_standard
+    unit: image
+    price: '0.040000'
+  - metric: image_to_image_2048_premium
+    unit: image
+    price: '0.080000'
+- model: Amazon Nova Reel
+  model_id: amazon.nova-reel-v1:1
+  lifecycle: Legacy — EOL 2026-09-30
+  entries:
+  - metric: text_to_video_medium_fps_hd
+    unit: video
+    price: '0.080000'
+  - metric: image_to_video_medium_fps_hd
+    unit: video
+    price: '0.080000'
+- model: Amazon Nova Sonic
+  model_id: amazon.nova-sonic-v1:0
+  lifecycle: Legacy — EOL 2026-09-14
+  entries:
+  - metric: speech_input_tokens
+    unit: 1K tokens
+    price: '0.003400'
+  - metric: speech_output_tokens
+    unit: 1K tokens
+    price: '0.013600'
+  - metric: text_input_tokens
+    unit: 1K tokens
+    price: '0.000060'
+  - metric: text_output_tokens
+    unit: 1K tokens
+    price: '0.000240'
+- model: Amazon Nova Multimodal Embeddings
+  entries:
+  - metric: input_tokens
+    unit: 1K tokens
+    price: '0.000135'
+- model: Amazon Nova 2 Lite
+  entries:
+  - metric: input_tokens
+    unit: 1K tokens
+    price: '0.000330'
+  - metric: output_tokens
+    unit: 1K tokens
+    price: '0.002750'
+  - metric: input_tokens_flex
+    unit: 1K tokens
+    price: '0.000165'
+  - metric: output_tokens_flex
+    unit: 1K tokens
+    price: '0.001375'
+  - metric: web_grounding
+    unit: request
+    price: '0.030000'
+- model: Amazon Nova 2 Pro
+  entries:
+  - metric: text_input_tokens
+    unit: 1K tokens
+    price: '0.001375'
+  - metric: text_output_tokens
+    unit: 1K tokens
+    price: '0.011000'
+  - metric: input_image_tokens
+    unit: 1K tokens
+    price: '0.001375'
+  - metric: input_video_tokens
+    unit: 1K tokens
+    price: '0.001375'
+  - metric: input_audio_tokens
+    unit: 1K tokens
+    price: '0.001375'
+- model: Amazon Nova 2 Omni
+  entries:
+  - metric: text_input_tokens
+    unit: 1K tokens
+    price: '0.000300'
+  - metric: text_output_tokens
+    unit: 1K tokens
+    price: '0.002800'
+  - metric: input_image_tokens
+    unit: 1K tokens
+    price: '0.000300'
+  - metric: input_video_tokens
+    unit: 1K tokens
+    price: '0.000300'
+  - metric: input_audio_tokens
+    unit: 1K tokens
+    price: '0.001100'
+  - metric: output_image_tokens
+    unit: 1K tokens
+    price: '0.044000'
+  - metric: web_grounding
+    unit: request
+    price: '0.030000'
+- model: Amazon Nova Sonic 2.0
+  entries:
+  - metric: speech_input_tokens
+    unit: 1K tokens
+    price: '0.003000'
+  - metric: speech_output_tokens
+    unit: 1K tokens
+    price: '0.012000'
+  - metric: text_input_tokens
+    unit: 1K tokens
+    price: '0.000330'
+  - metric: text_output_tokens
+    unit: 1K tokens
+    price: '0.002750'
+plans: []
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com

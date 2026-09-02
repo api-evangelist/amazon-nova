@@ -1,0 +1,43 @@
+generated: '2026-09-01'
+method: searched
+source:
+- https://docs.aws.amazon.com/bedrock/latest/userguide/playgrounds.html
+- https://console.aws.amazon.com/bedrock/
+- https://docs.aws.amazon.com/nova/latest/userguide/getting-started-console.html
+available: partial
+kind: console-playground
+note: >-
+  Amazon Nova has NO sandbox in the payments sense — there is no test mode, no test/live key
+  prefix pair, no magic test identifiers and no fixture tooling. What exists is the Amazon Bedrock
+  console playground: an interactive surface where a signed-in AWS user can prompt Nova models
+  before writing code. It is a real try-before-you-build surface, but every call in it is a live,
+  billed inference against production endpoints.
+surfaces:
+- name: Amazon Bedrock console playgrounds
+  url: https://console.aws.amazon.com/bedrock/
+  docs: https://docs.aws.amazon.com/bedrock/latest/userguide/playgrounds.html
+  auth: AWS account sign-in
+  billed: true
+  note: >-
+    Custom models (including fine-tuned image generation models) are not supported in the console
+    playgrounds; those require API calls against provisioned throughput.
+test_credentials:
+  separation: none
+  key_prefixes: []
+  note: >-
+    Nova is called with the same SigV4 credentials or Amazon Bedrock API key in every environment.
+    Isolation is achieved with a separate AWS account or IAM role, not with a test key.
+magic_values: []
+test_clocks:
+  supported: false
+cost_controls:
+- name: CountTokens
+  operation: POST /model/{modelId}/count-tokens
+  description: >-
+    Marked @readonly in the AWS service model. The nearest thing to a dry run: size and price a
+    request before spending an inference call on it.
+- name: Nova Micro
+  model_id: amazon.nova-micro-v1:0
+  description: >-
+    At 0.000035 USD / 1K input tokens it is the cheapest Nova model, and the pragmatic choice for
+    exercising an integration end-to-end without meaningful spend.

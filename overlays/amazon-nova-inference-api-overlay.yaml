@@ -1,0 +1,43 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Amazon Nova (inference-api)
+  version: 1.0.0
+extends: openapi/amazon-nova-inference-api-openapi.yml
+x-generated: '2026-09-01'
+x-method: generated
+x-source: >-
+  Derived from artifacts harvested on 2026-09-01: the first-party AWS Smithy model for
+  bedrock-runtime, the AWS General Reference quota tables, the AWS Price List Bulk API, and the
+  Amazon Bedrock model lifecycle page. Never mutates the underlying OpenAPI.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-enriched: '2026-09-01'
+    x-authoritative-contract: https://github.com/aws/api-models-aws/blob/main/models/bedrock-runtime/service/2023-09-30/bedrock-runtime-2023-09-30.json
+    x-contract-format: Smithy 2.0 (aws.protocols#restJson1)
+    x-error-catalog: errors/amazon-nova-problem-types.yml
+    x-conventions: conventions/amazon-nova-conventions.yml
+    x-rate-limits: rate-limits/amazon-nova-rate-limits.yml
+    x-pricing: plans/amazon-nova-plans-pricing.yml
+    x-lifecycle: lifecycle/amazon-nova-lifecycle.yml
+- target: $.info
+  update:
+    x-model-lifecycle-warning: >-
+      Five Amazon Nova v1 model ids are Legacy with EOL dates in September 2026 — Premier and
+      Sonic 2026-09-14, Canvas and Reel v1.0/v1.1 2026-09-30. Read modelLifecycle from
+      GetFoundationModel before binding an integration to a model id.
+- target: $.components.securitySchemes
+  update:
+    BedrockApiKey:
+      type: http
+      scheme: bearer
+      description: >-
+        Amazon Bedrock API key. The service model declares smithy.api#httpBearerAuth alongside
+        aws.auth#sigv4, so a bearer token is a supported alternative to SigV4 signing.
+- target: $.paths['/model/{modelId}/invoke'].post
+  update:
+    x-agentic-consequence: write
+    x-reversible: false
+    x-idempotency: none
+    x-note: >-
+      No idempotency key. A retried invoke is a second billed generation and cannot be reversed.

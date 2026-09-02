@@ -1,0 +1,118 @@
+generated: '2026-09-01'
+method: searched
+source:
+- https://raw.githubusercontent.com/aws/api-models-aws/main/models/bedrock-runtime/service/2023-09-30/bedrock-runtime-2023-09-30.json
+- https://docs.aws.amazon.com/nova/latest/userguide/using-invoke-api.html
+- https://docs.aws.amazon.com/nova/latest/userguide/using-converse-api.html
+- https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_StartAsyncInvoke.html
+protocol:
+  name: aws.protocols#restJson1
+  transports: [http/1.1, h2]
+  event_stream: vnd.amazon.eventstream over h2 and http/1.1
+authentication:
+  style: aws-sigv4
+  signing_name: bedrock
+  alternative: >-
+    The service model declares smithy.api#httpBearerAuth alongside aws.auth#sigv4, which is the
+    Amazon Bedrock API key (bearer token) path. See authentication/amazon-nova-authentication.yml.
+  cross_link: authentication/amazon-nova-authentication.yml
+idempotency:
+  supported: partial
+  mechanism: request-body token
+  field: clientRequestToken
+  applies_to: [startAsyncInvoke]
+  smithy_trait: smithy.api#idempotencyToken
+  header: null
+  scope: per-account, per-operation
+  retention: not published
+  conflict_error: ConflictException (HTTP 400)
+  note: >-
+    StartAsyncInvoke is the one Amazon Nova write operation with a real idempotency contract:
+    `clientRequestToken` is marked @idempotencyToken in Amazon's own Smithy model, and AWS SDKs
+    auto-generate it when the caller omits it. The synchronous inference operations —
+    InvokeModel, InvokeModelWithResponseStream, Converse, ConverseStream — carry NO idempotency
+    key at all. A retried Converse call is a second billed generation, and an agent must treat it
+    that way.
+pagination:
+  style: cursor
+  request_params: [maxResults, nextToken]
+  response_fields: [nextToken]
+  applies_to: [ListAsyncInvokes]
+  note: Only the async-invoke listing paginates; inference operations return a single response.
+field_expansion:
+  supported: false
+metadata:
+  supported: true
+  mechanism: >-
+    Converse accepts requestMetadata (a key/value map) for correlating an invocation with caller-side
+    context; model invocation logging can deliver it to Amazon S3 / CloudWatch Logs.
+request_tracing:
+  request_id_header: x-amzn-RequestId
+  error_type_header: x-amzn-ErrorType
+  note: >-
+    Every Bedrock Runtime response carries x-amzn-RequestId; that value is what AWS Support and
+    CloudTrail correlate on.
+versioning:
+  style: service-version + model-id
+  cross_link: lifecycle/amazon-nova-lifecycle.yml
+error_envelope:
+  format: aws-json-error
+  body_fields: [message]
+  type_header: x-amzn-ErrorType
+  rfc9457: false
+  cross_link: errors/amazon-nova-problem-types.yml
+rate_limit_signaling:
+  response_headers: []
+  status_on_exhaustion: 429
+  error_types: [ThrottlingException, ModelNotReadyException]
+  note: >-
+    Amazon Bedrock Runtime publishes NO RateLimit-* or X-RateLimit-* response headers and no
+    Retry-After. An agent gets a 429 with x-amzn-ErrorType and nothing else — remaining quota,
+    reset window and limit are only visible out-of-band through Service Quotas and CloudWatch.
+    This is the weakest part of Nova's runtime contract for an autonomous caller.
+  cross_link: rate-limits/amazon-nova-rate-limits.yml
+dry_run_mode:
+  supported: partial
+  mechanism: >-
+    CountTokens (POST /model/{modelId}/count-tokens) is marked @readonly in the AWS service model
+    and lets a caller price and size a request before spending an inference call on it. There is
+    no general dry-run flag on the inference operations themselves.
+reversibility:
+  grade: na
+  applies: false
+  rationale: >-
+    Amazon Nova's write surface produces model output, not durable provider-side state that a
+    caller can take back. There is no cancel, refund, void, reverse or undo operation anywhere in
+    the Bedrock Runtime contract: the eleven operations in Amazon's own Smithy model are
+    ApplyGuardrail, Converse, ConverseStream, CountTokens, GetAsyncInvoke, InvokeGuardrailChecks,
+    InvokeModel, InvokeModelWithBidirectionalStream, InvokeModelWithResponseStream,
+    ListAsyncInvokes and StartAsyncInvoke — and none of them reverses another.
+  write_surfaces:
+  - operation: invokeModel
+    reversal: null
+    window: null
+    note: A completed generation is billed and cannot be un-billed. Nothing persists server-side to delete.
+  - operation: converse
+    reversal: null
+    window: null
+  - operation: converseStream
+    reversal: null
+    window: null
+  - operation: invokeModelWithResponseStream
+    reversal: null
+    window: null
+  - operation: startAsyncInvoke
+    reversal: null
+    window: null
+    note: >-
+      The closest thing to reversal in the whole surface, and it still is not one. A long-running
+      Nova Reel job started with StartAsyncInvoke has NO stop or cancel operation in the Bedrock
+      Runtime API — GetAsyncInvoke and ListAsyncInvokes only observe it. The only genuine
+      protection is the clientRequestToken idempotency key, which prevents a duplicate job rather
+      than undoing one. Output objects written to the caller's own Amazon S3 bucket are deletable
+      by the caller, but that is S3, not Nova.
+  docs: https://docs.aws.amazon.com/bedrock/latest/APIReference/API_Operations_Amazon_Bedrock_Runtime.html
+  note: >-
+    No window is asserted here because the provider states none. Recorded as `na` rather than a
+    zero: an agent should plan for Nova calls being irreversible by design, not assume an undo it
+    will not find.

@@ -4,92 +4,198 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Amazon Nova
 providerId: amazon-nova
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
+modified: '2026-09-01'
+generated: '2026-09-01'
+method: searched
+source: https://docs.aws.amazon.com/general/latest/gr/bedrock.html
+docs:
+- https://docs.aws.amazon.com/nova/latest/userguide/quotas.html
+- https://docs.aws.amazon.com/general/latest/gr/bedrock.html
+- https://console.aws.amazon.com/servicequotas/home/services/bedrock/quotas
+description: >-
+  Published Amazon Bedrock service quotas that govern Amazon Nova model invocation, harvested from
+  the AWS General Reference quota tables on 2026-09-01. This file REPLACES an API Evangelist
+  scaffold dated 2026-05-04 that asserted invented per-key request quotas and X-RateLimit-*
+  headers; none of those existed. Amazon Nova is not rate limited per API key at all — it is
+  quota'd per AWS account, per region, per MODEL, in requests-per-minute and tokens-per-minute.
 tags:
-  - AWS
-  - Foundation Models
-  - Generative AI
-  - Image Generation
-  - Machine Learning
-  - Multimodal
-  - Speech
-  - Video Generation
-  - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the Amazon Nova API surface. Captures per-tier
-  quotas, burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to
-  be replaced with published provider limits.
+- AWS
+- Foundation Models
+- Rate Limiting
+- Quotas
+- Throttling
 headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+  limit: null
+  remaining: null
+  reset: null
+  retryAfter: null
+  policy: null
+header_note: >-
+  Amazon Bedrock Runtime returns NO rate-limit response headers of any kind. There is no
+  RateLimit-*, no X-RateLimit-*, and no Retry-After. On exhaustion the caller gets HTTP 429 with
+  x-amzn-ErrorType ThrottlingException and a `message` body, and must discover remaining headroom
+  out-of-band via Service Quotas or CloudWatch metrics.
 responseCodes:
   throttled: 429
-  quotaExceeded: 429
+  quotaExceeded: 400
   serviceUnavailable: 503
+error_types:
+  throttled: ThrottlingException
+  model_not_ready: ModelNotReadyException
+  quota: ServiceQuotaExceededException
+scope: per AWS account, per region, per model
+adjustable: >-
+  Most token-per-minute quotas are adjustable through the Service Quotas console; most
+  requests-per-minute quotas for on-demand inference are marked not adjustable.
 limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - Amazon Nova API
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - Amazon Nova API
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - Amazon Nova API
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - Amazon Nova API
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - Amazon Nova API
+- name: On-demand model inference requests per minute for Amazon Nova Micro
+  model_id: amazon.nova-micro-v1:0
+  scope: account-region-model
+  metric: requests_per_minute
+  limit: 2000
+  regional_variance: 'us-east-1: 2,000; eu-west-2: 2,000; each other supported region: 200'
+  adjustable: false
+  applies: [converse, converseStream, invokeModel, invokeModelWithResponseStream]
+- name: On-demand model inference tokens per minute for Amazon Nova Micro
+  model_id: amazon.nova-micro-v1:0
+  scope: account-region-model
+  metric: tokens_per_minute
+  limit: 4000000
+  regional_variance: 'us-east-1: 4,000,000; eu-west-2: 4,000,000; each other supported region: 200,000'
+  applies: [converse, converseStream, invokeModel, invokeModelWithResponseStream]
+- name: On-demand model inference requests per minute for Amazon Nova Lite
+  model_id: amazon.nova-lite-v1:0
+  scope: account-region-model
+  metric: requests_per_minute
+  limit: 2000
+  regional_variance: 'us-east-1: 2,000; eu-west-2: 2,000; each other supported region: 200'
+  adjustable: false
+  applies: [converse, converseStream, invokeModel, invokeModelWithResponseStream]
+- name: On-demand model inference tokens per minute for Amazon Nova Lite
+  model_id: amazon.nova-lite-v1:0
+  scope: account-region-model
+  metric: tokens_per_minute
+  limit: 4000000
+  regional_variance: 'us-east-1: 4,000,000; eu-west-2: 4,000,000; each other supported region: 200,000'
+  applies: [converse, converseStream, invokeModel, invokeModelWithResponseStream]
+- name: On-demand model inference requests per minute for Amazon Nova Pro
+  model_id: amazon.nova-pro-v1:0
+  scope: account-region-model
+  metric: requests_per_minute
+  limit: 250
+  regional_variance: each supported region
+  adjustable: false
+  applies: [converse, converseStream, invokeModel, invokeModelWithResponseStream]
+- name: On-demand model inference tokens per minute for Amazon Nova Pro
+  model_id: amazon.nova-pro-v1:0
+  scope: account-region-model
+  metric: tokens_per_minute
+  limit: 1000000
+  regional_variance: each supported region
+  applies: [converse, converseStream, invokeModel, invokeModelWithResponseStream]
+- name: On-Demand, latency-optimized model inference requests per minute for Amazon Nova Pro V1
+  model_id: amazon.nova-pro-v1:0
+  scope: account-region-model
+  metric: requests_per_minute
+  limit: 10
+  mode: latency-optimized
+  applies: [converse, converseStream, invokeModel, invokeModelWithResponseStream]
+- name: On-Demand, latency-optimized model inference tokens per minute for Amazon Nova Pro V1
+  model_id: amazon.nova-pro-v1:0
+  scope: account-region-model
+  metric: tokens_per_minute
+  limit: 40000
+  mode: latency-optimized
+- name: Cross-region model inference requests per minute for Amazon Nova Premier V1
+  model_id: amazon.nova-premier-v1:0
+  scope: account-region-model
+  metric: requests_per_minute
+  limit: 500
+  mode: cross-region-inference-profile
+- name: Cross-region model inference tokens per minute for Amazon Nova Premier V1
+  model_id: amazon.nova-premier-v1:0
+  scope: account-region-model
+  metric: tokens_per_minute
+  limit: 2000000
+  mode: cross-region-inference-profile
+- name: On-demand model inference requests per minute for Amazon Nova Canvas
+  model_id: amazon.nova-canvas-v1:0
+  scope: account-region-model
+  metric: requests_per_minute
+  limit: 100
+  applies: [invokeModel]
+- name: On-demand InvokeModel concurrent requests for Amazon Nova Reel 1.0
+  model_id: amazon.nova-reel-v1:0
+  scope: account-region-model
+  metric: concurrent_requests
+  limit: 10
+  applies: [invokeModel, startAsyncInvoke]
+- name: On-demand InvokeModel concurrent requests for Amazon Nova Reel 1.1
+  model_id: amazon.nova-reel-v1:1
+  scope: account-region-model
+  metric: concurrent_requests
+  limit: 3
+  applies: [invokeModel, startAsyncInvoke]
+- name: On-demand InvokeModel concurrent requests for Amazon Nova Sonic
+  model_id: amazon.nova-sonic-v1:0
+  scope: account-region-model
+  metric: concurrent_requests
+  limit: 20
+  applies: [invokeModelWithBidirectionalStream]
+- name: Cross-region model inference requests per minute for Amazon Nova 2 Lite
+  model_family: Amazon Nova 2 Lite
+  scope: account-region-model
+  metric: requests_per_minute
+  limit: 2000
+  mode: cross-region-inference-profile
+- name: Cross-region model inference tokens per minute for Amazon Nova 2 Lite
+  model_family: Amazon Nova 2 Lite
+  scope: account-region-model
+  metric: tokens_per_minute
+  limit: 8000000
+  mode: cross-region-inference-profile
+  adjustable: true
+- name: Cross-region model inference requests per minute for Amazon Nova 2 Omni
+  model_family: Amazon Nova 2 Omni
+  scope: account-region-model
+  metric: requests_per_minute
+  limit: 2000
+  mode: cross-region-inference-profile
+- name: Cross-region model inference tokens per minute for Amazon Nova 2 Omni
+  model_family: Amazon Nova 2 Omni
+  scope: account-region-model
+  metric: tokens_per_minute
+  limit: 8000000
+  mode: cross-region-inference-profile
+  adjustable: true
+- name: Cross-region model inference requests per minute for Amazon Nova 2 Pro Preview
+  model_family: Amazon Nova 2 Pro Preview
+  scope: account-region-model
+  metric: requests_per_minute
+  limit: 100
+  mode: cross-region-inference-profile
+- name: Cross-region model inference tokens per minute for Amazon Nova 2 Pro Preview
+  model_family: Amazon Nova 2 Pro Preview
+  scope: account-region-model
+  metric: tokens_per_minute
+  limit: 1000000
+  mode: cross-region-inference-profile
+  adjustable: true
 policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+- name: Backoff Strategy
+  description: >-
+    No Retry-After is returned, so a caller must implement exponential backoff with jitter on its
+    own. ModelNotReadyException is the only error Amazon marks retryable in the service model;
+    AWS SDKs retry it automatically.
+- name: Quota Discovery
+  description: >-
+    Current and remaining quota is not observable from a response. Read it from the Service Quotas
+    console or API (service code `bedrock`) and from CloudWatch metrics.
+- name: Quota Increase
+  description: >-
+    Token-per-minute quotas are generally adjustable via Service Quotas; on-demand
+    requests-per-minute quotas for most Nova models are marked not adjustable.
+limit_count: 20
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com

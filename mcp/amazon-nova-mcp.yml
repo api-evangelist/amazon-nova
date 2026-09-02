@@ -1,0 +1,83 @@
+generated: '2026-09-01'
+method: searched
+status: published
+source:
+- https://github.com/aws/agent-toolkit-for-aws
+- https://pypi.org/project/awslabs.nova-canvas-mcp-server/
+- https://docs.aws.amazon.com/agent-toolkit/latest/userguide/skills.html
+deployment:
+  mode: both
+  endpoint: https://aws-mcp.us-east-1.api.aws/mcp
+  install: uvx mcp-proxy-for-aws@1.6.4 https://aws-mcp.us-east-1.api.aws/mcp --metadata AWS_REGION=us-west-2
+  package: https://pypi.org/project/awslabs.nova-canvas-mcp-server/
+  auth: oauth
+  verified: probed
+  note: >-
+    Two distinct surfaces, deliberately recorded separately below. The REMOTE endpoint is the AWS
+    MCP Server — Amazon-operated, account-wide, GA since 2026-05-06, and the door through which an
+    agent actually reaches Amazon Nova today (via the AWS CLI / boto3 tools). It answered an
+    anonymous tools/list with HTTP 200 and 9 real tools on 2026-09-01, and it publishes RFC 9728
+    protected-resource metadata pointing at https://us-east-1.oauth.signin.aws for the
+    authenticated calls. The LOCAL-STDIO package is the only Nova-branded MCP distribution AWS ever
+    shipped, awslabs.nova-canvas-mcp-server, and it is deprecated.
+servers:
+- name: aws-mcp-server
+  scope: aws-platform
+  transport: http
+  url: https://aws-mcp.us-east-1.api.aws/mcp
+  operator: Amazon Web Services
+  status: published
+  auth: oauth
+  authorization_servers:
+  - https://us-east-1.oauth.signin.aws
+  protected_resource_metadata: /.well-known/oauth-protected-resource
+  probe:
+    method: POST tools/list (jsonrpc 2.0, anonymous)
+    http_status: 200
+    tools_returned: 9
+    fetched: '2026-09-01'
+  note: >-
+    Not Nova-specific. It exposes the AWS control plane and documentation to a coding agent, and an
+    agent reaches Nova through it by running `aws bedrock-runtime invoke-model` / `converse` inside
+    the call_aws / run_script tools, or by loading an AWS skill via retrieve_skill.
+  tools:
+  - name: aws___call_aws
+    description: 'Execute AWS CLI commands. DEPRECATED in favour of run_script.'
+    status: deprecated
+  - name: aws___run_script
+    description: Execute Python in a sandboxed environment with AWS API access via call_boto3.
+  - name: aws___get_presigned_url
+    description: Generate pre-signed S3 URLs for uploading or downloading files.
+  - name: aws___get_tasks
+    description: Poll status of long-running tasks.
+  - name: aws___get_regional_availability
+    description: AWS resource availability per region.
+  - name: aws___list_regions
+    description: Retrieve a list of all AWS regions.
+  - name: aws___read_documentation
+    description: Fetch full AWS doc pages as markdown.
+  - name: aws___search_documentation
+    description: AWS docs search returning verbatim page text.
+  - name: aws___retrieve_skill
+    description: Retrieve an AWS skill (workflows, references). Returns SKILL.md.
+- name: awslabs.nova-canvas-mcp-server
+  scope: amazon-nova-canvas
+  transport: stdio
+  install: uvx awslabs.nova-canvas-mcp-server@latest
+  package: https://pypi.org/project/awslabs.nova-canvas-mcp-server/
+  version: 1.0.15
+  published: '2026-03-24'
+  operator: AWS Labs
+  status: deprecated
+  auth: api-key
+  note: >-
+    Deprecation is stated by AWS in the package's own description, which redirects users to
+    bedrock-image-mcp-server. The src/nova-canvas-mcp-server directory has been removed from
+    awslabs/mcp (GitHub contents API returns 404 as of 2026-09-01).
+  tools:
+  - name: generate_image
+    description: Create images from text prompts with Amazon Nova Canvas.
+    source_operation: openapi/amazon-nova-inference-api-openapi.yml#invokeModel
+  - name: generate_image_with_colors
+    description: Generate images with a caller-supplied hex colour palette (up to 10 colours).
+    source_operation: openapi/amazon-nova-inference-api-openapi.yml#invokeModel

@@ -1,0 +1,28 @@
+generated: '2026-09-01'
+method: generated
+source: openapi/, conventions/, errors/, lifecycle/, rate-limits/, plans/
+note: >-
+  No provider-published Agent Skills for Amazon Nova were found on a public URL. AWS does publish
+  skills through the Agent Toolkit for AWS (github.com/aws/agent-toolkit-for-aws, retrievable via
+  the AWS MCP Server's retrieve_skill tool), but the Nova-specific set is not enumerable from an
+  anonymous HTTP fetch, so these three are generated from this repo's own harvested artifacts.
+  Every step is grounded in an operationId that exists verbatim in the linked OpenAPI.
+skills:
+- file: amazon-nova-converse.md
+  name: Call an Amazon Nova understanding model with the Converse API
+  api: openapi/amazon-nova-inference-api-openapi.yml
+  operations: [converse, converseStream]
+- file: amazon-nova-async-generation.md
+  name: Run a long-running Amazon Nova generation asynchronously
+  api: openapi/amazon-nova-async-api-openapi.yml
+  operations: [startAsyncInvoke, getAsyncInvoke]
+- file: amazon-nova-invoke-image.md
+  name: Generate an image with Amazon Nova Canvas
+  api: openapi/amazon-nova-inference-api-openapi.yml
+  operations: [invokeModel]
+provider_published:
+  found: false
+  checked:
+  - https://raw.githubusercontent.com/aws-samples/amazon-nova-samples/main/AGENTS.md (404)
+  - https://raw.githubusercontent.com/aws/nova-act/main/AGENTS.md (404)
+  - https://github.com/aws/agent-toolkit-for-aws (200 — skills exist but are not listed at a public JSON/HTML index)

@@ -1,0 +1,81 @@
+generated: '2026-09-01'
+method: searched
+source: https://docs.aws.amazon.com/nova/latest/userguide/doc-history.html
+scheme: dated-document-history
+current_version: Amazon Nova 2.0
+note: >-
+  Amazon publishes a dated document history for the Amazon Nova User Guide rather than a versioned
+  API changelog — the Bedrock Runtime API version itself has stayed at 2023-09-30 since launch, so
+  every change below is a MODEL or capability change, not a contract change. Amazon Nova 2 keeps a
+  separate history at /nova/latest/nova2-userguide/doc-history.html.
+entries:
+- date: '2026-08-06'
+  title: SageMaker Python SDK documentation update
+  type: docs
+  breaking: false
+  highlights: >-
+    Nova Forge SDK documentation pages replaced with SageMaker Python SDK v3 documentation covering
+    model customization, evaluation and deployment.
+- date: '2025-12-02'
+  title: Amazon Nova 2.0 release
+  type: models
+  breaking: false
+  highlights: >-
+    Amazon Nova 2.0 available with new models including Amazon Nova Lite and Amazon Nova Sonic; a
+    separate Amazon Nova 2.0 Developer Guide.
+- date: '2025-10-28'
+  title: Web grounding
+  type: capability
+  breaking: false
+  highlights: Connect Amazon Nova models to real-time search results for more accurate responses.
+- date: '2025-10-28'
+  title: Multimodal embeddings
+  type: models
+  breaking: false
+  highlights: Amazon Nova Embeddings model released.
+- date: '2025-07-16'
+  title: Now tunable with SageMaker AI
+  type: capability
+  breaking: false
+  highlights: Amazon Nova models can be customized with Amazon SageMaker AI.
+- date: '2025-07-16'
+  title: New speech-to-speech languages
+  type: models
+  breaking: false
+  highlights: Amazon Nova Sonic adds French, Italian and German.
+- date: '2025-07-01'
+  title: Web grounding (Beta)
+  type: capability
+  breaking: false
+- date: '2025-07-01'
+  title: New image generation capabilities
+  type: capability
+  breaking: false
+  highlights: Amazon Nova Canvas adds virtual try-on and image style parameters.
+- date: '2025-06-12'
+  title: New speech-to-speech language
+  type: models
+  breaking: false
+  highlights: Amazon Nova Sonic adds Spanish.
+- date: '2025-04-08'
+  title: Speech-to-speech capabilities
+  type: models
+  breaking: false
+  highlights: Amazon Nova Sonic introduces fully spoken conversation.
+- date: '2025-04-07'
+  title: Enhanced video generation support
+  type: capability
+  breaking: false
+  highlights: Amazon Nova can generate videos up to 2 minutes long, plus storyboarding.
+- date: '2025-03-10'
+  title: Enhanced region support
+  type: availability
+  breaking: false
+- date: '2024-12-03'
+  title: Initial release
+  type: launch
+  breaking: false
+  highlights: Initial release of the Amazon Nova User Guide.
+related:
+  amazon_nova_2: https://docs.aws.amazon.com/nova/latest/nova2-userguide/doc-history.html
+  whats_new: https://aws.amazon.com/about-aws/whats-new/

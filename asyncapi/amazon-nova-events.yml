@@ -1,0 +1,52 @@
+generated: '2026-09-01'
+method: searched
+source:
+- https://docs.aws.amazon.com/bedrock/latest/userguide/monitoring-eventbridge.html
+- https://docs.aws.amazon.com/bedrock/latest/userguide/monitoring-eventbridge-how-it-works.html
+spec_type: EventCatalog
+asyncapi_published: false
+note: >-
+  Amazon Nova publishes NO AsyncAPI document and NO HTTP webhooks. It does have a real, documented
+  asynchronous event surface, and it is delivered over Amazon EventBridge rather than by callback:
+  Amazon Bedrock emits job state-change events to the default event bus with source `aws.bedrock`,
+  and a consumer writes a rule to route them to Lambda, SNS, SQS or an HTTP API destination. This
+  is the cloud-native equivalent of a webhook subscription, recorded honestly as what it is — the
+  subscriber owns the rule, and Amazon does not POST to a caller-supplied URL.
+transport:
+  name: Amazon EventBridge
+  bus: default
+  source: aws.bedrock
+  delivery: best-effort, near real time
+  cost: no charge to receive AWS events from EventBridge
+  docs: https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is.html
+events:
+- detail_type: Batch Inference Job State Change
+  source: aws.bedrock
+  description: >-
+    Status change on a batch inference job — the offline, high-volume path for Amazon Nova
+    understanding models.
+  correlates_with: GetModelInvocationJob
+  resources: 'arn:aws:bedrock:<region>:<account>:model-invocation-job/<id>'
+- detail_type: Model Customization Job State Change
+  source: aws.bedrock
+  description: >-
+    Status change on a fine-tuning / customization job. Amazon Nova Pro, Lite, Micro and Canvas
+    support customization.
+  correlates_with: GetModelCustomizationJob
+  resources: 'arn:aws:bedrock:<region>:<account>:model-customization-job/<id>'
+- detail_type: Bedrock Data Automation Job Succeeded
+  source: aws.bedrock
+  description: Completion event for an Amazon Bedrock Data Automation job.
+gaps:
+- >-
+  StartAsyncInvoke — the operation Amazon Nova Reel video generation runs on — has NO documented
+  EventBridge event. A caller must poll GetAsyncInvoke, which is exactly the polling the
+  EventBridge page says events exist to avoid.
+- >-
+  Synchronous inference (InvokeModel, Converse) emits no events, which is expected for a
+  request/response surface.
+subscribe_pattern:
+  description: EventBridge rule pattern for every Amazon Bedrock job state change.
+  pattern:
+    source: [aws.bedrock]
+    detail-type: [Batch Inference Job State Change, Model Customization Job State Change]

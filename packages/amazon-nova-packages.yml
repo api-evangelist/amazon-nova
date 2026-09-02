@@ -1,0 +1,120 @@
+generated: '2026-09-01'
+method: searched
+source: >-
+  registry metadata endpoints (registry.npmjs.org, pypi.org, rubygems.org, crates.io,
+  api.nuget.org, search.maven.org, proxy.golang.org) queried 2026-09-01
+note: >-
+  Amazon Nova has no Nova-branded client library. It is invoked through the Amazon Bedrock
+  Runtime API, so the first-party client surface is the AWS SDK's bedrock-runtime client in
+  each language — published by Amazon Web Services under the aws / awslabs / software.amazon.awssdk
+  namespaces. Two Nova-specific first-party packages exist: the Amazon Nova Act Python SDK and
+  the (now deprecated) AWS Labs Nova Canvas MCP server.
+packages:
+- language: python
+  registry: pypi
+  name: boto3
+  url: https://pypi.org/project/boto3/
+  install: pip install boto3
+  official: true
+  version: 1.43.86
+  published: '2026-09-01'
+  client: boto3.client("bedrock-runtime")
+  note: >-
+    The AWS SDK for Python. Nova is invoked via the bedrock-runtime client
+    (invoke_model, converse, converse_stream, start_async_invoke).
+- language: javascript
+  registry: npm
+  name: '@aws-sdk/client-bedrock-runtime'
+  url: https://www.npmjs.com/package/@aws-sdk/client-bedrock-runtime
+  install: npm install @aws-sdk/client-bedrock-runtime
+  official: true
+  version: 3.1124.0
+  published: '2026-09-01'
+- language: java
+  registry: maven
+  name: software.amazon.awssdk:bedrockruntime
+  url: https://central.sonatype.com/artifact/software.amazon.awssdk/bedrockruntime
+  install: 'implementation("software.amazon.awssdk:bedrockruntime:2.46.7")'
+  official: true
+  version: 2.46.7
+  published: '2026-06-09'
+- language: dotnet
+  registry: nuget
+  name: AWSSDK.BedrockRuntime
+  url: https://www.nuget.org/packages/AWSSDK.BedrockRuntime
+  install: dotnet add package AWSSDK.BedrockRuntime
+  official: true
+  version: 4.0.101.4
+  published: null
+  note: >-
+    Version read from the NuGet flat-container index; the registration index did not return a
+    parseable publication date on this probe, so `published` is recorded as an honest null.
+- language: go
+  registry: gomod
+  name: github.com/aws/aws-sdk-go-v2/service/bedrockruntime
+  url: https://pkg.go.dev/github.com/aws/aws-sdk-go-v2/service/bedrockruntime
+  install: go get github.com/aws/aws-sdk-go-v2/service/bedrockruntime
+  official: true
+  version: v1.60.0
+  published: '2026-08-31'
+- language: ruby
+  registry: rubygems
+  name: aws-sdk-bedrockruntime
+  url: https://rubygems.org/gems/aws-sdk-bedrockruntime
+  install: gem install aws-sdk-bedrockruntime
+  official: true
+  version: 1.83.0
+  published: '2026-07-31'
+- language: rust
+  registry: crates
+  name: aws-sdk-bedrockruntime
+  url: https://crates.io/crates/aws-sdk-bedrockruntime
+  install: cargo add aws-sdk-bedrockruntime
+  official: true
+  version: 1.142.0
+  published: '2026-08-25'
+- language: python
+  registry: pypi
+  name: nova-act
+  url: https://pypi.org/project/nova-act/
+  install: pip install nova-act
+  official: true
+  version: 3.4.187.0
+  published: '2026-04-30'
+  source_code: https://github.com/aws/nova-act
+  note: >-
+    The Amazon Nova Act SDK — a Nova-branded, first-party Amazon package for building UI-automation
+    agents. Distinct from the Bedrock Runtime clients above, which is how the Nova foundation
+    models themselves are called.
+- language: python
+  registry: pypi
+  name: awslabs.nova-canvas-mcp-server
+  url: https://pypi.org/project/awslabs.nova-canvas-mcp-server/
+  install: uvx awslabs.nova-canvas-mcp-server@latest
+  official: true
+  version: 1.0.15
+  published: '2026-03-24'
+  source_code: https://github.com/awslabs/mcp
+  status: deprecated
+  note: >-
+    The AWS Labs MCP server for Amazon Nova Canvas image generation. Its own PyPI description
+    carries a deprecation notice pointing users at bedrock-image-mcp-server, and the source
+    directory has been removed from the awslabs/mcp repository — the package has not shipped a
+    release since 2026-03-24. This is the abandonment signal: the only Nova-specific MCP
+    distribution AWS published is now unmaintained.
+- language: python
+  registry: pypi
+  name: mcp-proxy-for-aws
+  url: https://pypi.org/project/mcp-proxy-for-aws/
+  install: uvx mcp-proxy-for-aws@1.6.4 https://aws-mcp.us-east-1.api.aws/mcp
+  official: true
+  version: null
+  published: null
+  note: >-
+    The SigV4-signing stdio proxy the Agent Toolkit for AWS README pins at 1.6.4 for reaching the
+    remote AWS MCP Server. Version recorded from the provider's own published config snippet, not
+    from a registry probe on this pass — so `version`/`published` stay null rather than guessed.
+summary:
+  official_count: 10
+  languages: [python, javascript, java, dotnet, go, ruby, rust]
+  nova_specific: [nova-act, awslabs.nova-canvas-mcp-server]

@@ -52,7 +52,7 @@ tags_raw:
 url: >-
   https://raw.githubusercontent.com/api-evangelist/amazon-nova/refs/heads/main/apis.yml
 created: '2026-03-16'
-modified: '2026-04-19'
+modified: '2026-09-01'
 specificationVersion: '0.23'
 apis:
 - aid: amazon-nova:amazon-nova-api
@@ -82,7 +82,13 @@ apis:
     url: https://aws.amazon.com/bedrock/pricing/
 - aid: amazon-nova:amazon-nova-async-api
   name: Amazon Nova Async API
-  description: Asynchronous invocation for long-running generation jobs.
+  description: >-
+    Asynchronous invocation for long-running Amazon Nova generation jobs, principally Amazon Nova
+    Reel video generation. StartAsyncInvoke returns an invocationArn, GetAsyncInvoke polls it, and
+    output media is written to a caller-owned Amazon S3 bucket. clientRequestToken carries the only
+    idempotency contract in the Amazon Nova surface.
+  humanUrl: https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_StartAsyncInvoke.html
+  baseUrl: https://bedrock-runtime.{region}.amazonaws.com
   tags:
   - Async
   properties:
@@ -90,7 +96,13 @@ apis:
     url: openapi/amazon-nova-async-api-openapi.yml
 - aid: amazon-nova:amazon-nova-inference-api
   name: Amazon Nova Inference API
-  description: Synchronous and streaming inference operations.
+  description: >-
+    Synchronous and streaming inference against the Amazon Nova understanding and generation
+    models through the Amazon Bedrock Runtime endpoint — InvokeModel, InvokeModelWithResponseStream,
+    Converse and ConverseStream. Requests are AWS SigV4-signed or authenticated with an Amazon
+    Bedrock API key.
+  humanUrl: https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html
+  baseUrl: https://bedrock-runtime.{region}.amazonaws.com
   tags:
   - Inference
   properties:
@@ -107,10 +119,10 @@ common:
   url: security/amazon-nova-domain-security.yml
 - type: Authentication
   url: authentication/amazon-nova-authentication.yml
-- type: Portal
-  url: https://aws.amazon.com/ai/nova/
+- type: DeveloperPortal
+  url: https://aws.amazon.com/nova/
 - type: Website
-  url: https://aws.amazon.com/ai/nova/
+  url: https://aws.amazon.com/nova/
 - type: Documentation
   url: https://docs.aws.amazon.com/nova/
 - type: TermsOfService
@@ -120,7 +132,7 @@ common:
 - type: Support
   url: https://aws.amazon.com/premiumsupport/
 - type: Blog
-  url: https://aws.amazon.com/blogs/machine-learning/tag/amazon-nova/
+  url: https://aws.amazon.com/blogs/machine-learning/
 - type: GitHubOrganization
   url: https://github.com/aws
 - type: Console
@@ -133,6 +145,62 @@ common:
   url: https://health.aws.amazon.com/health/status
 - type: Contact
   url: https://aws.amazon.com/contact-us/
+- type: APIReference
+  url: https://docs.aws.amazon.com/bedrock/latest/APIReference/API_Operations_Amazon_Bedrock_Runtime.html
+- type: GettingStarted
+  url: https://docs.aws.amazon.com/nova/latest/userguide/getting-started.html
+- type: Pricing
+  url: https://aws.amazon.com/bedrock/pricing/
+- type: Security
+  url: https://vdp.aws.security/
+- type: Compliance
+  url: https://aws.amazon.com/compliance/
+- type: Deprecation
+  url: https://docs.aws.amazon.com/bedrock/latest/userguide/model-lifecycle.html
+- type: SDKs
+  url: packages/amazon-nova-packages.yml
+- type: Packages
+  url: packages/amazon-nova-packages.yml
+- type: WellKnown
+  url: well-known/amazon-nova-well-known.yml
+- type: SecurityTxt
+  url: well-known/amazon-nova-security.txt
+- type: MCPServer
+  url: mcp/amazon-nova-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/amazon-nova-tool-crosswalk.yml
+- type: LLMsTxt
+  url: llms/amazon-nova-llms.txt
+- type: Conformance
+  url: conformance/amazon-nova-conformance.yml
+- type: ErrorCatalog
+  url: errors/amazon-nova-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/amazon-nova-lifecycle.yml
+- type: Conventions
+  url: conventions/amazon-nova-conventions.yml
+- type: Idempotency
+  url: conventions/amazon-nova-conventions.yml
+- type: ChangeLog
+  url: changelog/amazon-nova-changelog.yml
+- type: CLI
+  url: cli/amazon-nova-cli.yml
+- type: Sandbox
+  url: sandbox/amazon-nova-sandbox.yml
+- type: DataModel
+  url: data-model/amazon-nova-data-model.yml
+- type: Webhooks
+  url: asyncapi/amazon-nova-events.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Plans
+  url: plans/amazon-nova-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/amazon-nova-rate-limits.yml
+- type: Overlay
+  url: overlays/amazon-nova-inference-api-overlay.yaml
+- type: Overlay
+  url: overlays/amazon-nova-async-api-overlay.yaml
 - type: Features
   data:
   - name: Multiple Model Types
@@ -190,3 +258,10 @@ common:
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-09-01'
+  status: enriched
+  artifacts_added: 23
+  pass: local-v1
+x-parent: aws
+x-relationship: product

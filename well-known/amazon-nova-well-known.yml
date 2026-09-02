@@ -1,0 +1,116 @@
+generated: '2026-09-01'
+method: searched
+source: live probes of every apis.yml host, every OpenAPI servers[] host, and the AWS MCP host
+note: >-
+  Amazon Nova is invoked through the Amazon Bedrock Runtime regional endpoints
+  (bedrock-runtime.{region}.amazonaws.com). Those endpoints are an AWS SigV4 API surface and
+  answer every /.well-known/ path with a clean HTTP 404 <UnknownOperationException/> — no
+  catch-all, no SPA shell. The only served documents in this provider's orbit are the AWS
+  corporate security.txt on aws.amazon.com and the RFC 9728 protected-resource metadata the
+  AWS MCP Server publishes for its OAuth-gated endpoint.
+hosts:
+- host: https://aws.amazon.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: amazon-nova-security.txt
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  path_echo_control: passed
+  soft_404_control:
+    path: /.well-known/amazon-nova-negative-control-7f3ab91c.json
+    status: 404
+    bytes: 322200
+    note: aws.amazon.com returns a real branded 404 page for unknown paths, not a 200 catch-all.
+- host: https://docs.aws.amazon.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  path_echo_control: passed
+  soft_404_control:
+    path: /.well-known/amazon-nova-negative-control-7f3ab91c.json
+    status: 404
+    bytes: 1711
+- host: https://bedrock-runtime.us-east-1.amazonaws.com
+  note: the Amazon Bedrock Runtime regional endpoint that serves every Amazon Nova model invocation
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  path_echo_control: passed
+- host: https://bedrock.us-east-1.amazonaws.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  path_echo_control: passed
+- host: https://aws-mcp.us-east-1.api.aws
+  note: >-
+    The AWS MCP Server (Agent Toolkit for AWS), Amazon-operated. Not Nova-specific — it is the
+    account-wide agent door through which an agent reaches AWS services, Amazon Bedrock and
+    Amazon Nova included.
+  documents:
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    file: amazon-nova-oauth-protected-resource.json
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+- host: https://us-east-1.oauth.signin.aws
+  note: the authorization server named by the AWS MCP Server's RFC 9728 protected-resource document
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: amazon-nova-oauth-authorization-server.json
+hit_count: 3

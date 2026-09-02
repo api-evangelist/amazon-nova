@@ -1,0 +1,97 @@
+generated: '2026-09-01'
+method: derived
+source:
+- openapi/amazon-nova-inference-api-openapi.yml
+- openapi/amazon-nova-async-api-openapi.yml
+- https://raw.githubusercontent.com/aws/api-models-aws/main/models/bedrock-runtime/service/2023-09-30/bedrock-runtime-2023-09-30.json
+note: >-
+  Amazon Nova is a near-stateless inference surface: there is no customer, invoice or object graph
+  to walk. The only durable, addressable server-side entity in the whole Bedrock Runtime contract
+  is the asynchronous invocation. Everything else is a request/response document shape. Recording
+  that plainly is the finding — a data-model artifact for Nova is thin because the API genuinely
+  has almost no persistent state, not because the derivation was shallow.
+entities:
+- name: FoundationModel
+  identifier: modelId
+  id_form: 'amazon.nova-<variant>-v<major>:<minor>  (e.g. amazon.nova-pro-v1:0)'
+  persistent: false
+  owner: Amazon
+  note: >-
+    Addressed as a path parameter, never created or mutated by the caller. Its lifecycle state is
+    read from the control plane (GetFoundationModel.modelLifecycle), not from the runtime API.
+  variants:
+  - amazon.nova-micro-v1:0
+  - amazon.nova-lite-v1:0
+  - amazon.nova-pro-v1:0
+  - amazon.nova-premier-v1:0
+  - amazon.nova-canvas-v1:0
+  - amazon.nova-reel-v1:0
+  - amazon.nova-reel-v1:1
+  - amazon.nova-sonic-v1:0
+- name: InferenceProfile
+  identifier: inferenceProfileId
+  id_form: '<geo>.amazon.nova-<variant>-v1:0  (e.g. us.amazon.nova-lite-v1:0)'
+  persistent: false
+  note: >-
+    A cross-region routing alias accepted anywhere a modelId is. Its own quota row is distinct
+    from the on-demand model quota — see rate-limits/.
+- name: AsyncInvocation
+  identifier: invocationArn
+  id_form: 'arn:aws:bedrock:<region>:<account>:async-invoke/<id>'
+  persistent: true
+  created_by: startAsyncInvoke
+  read_by: [getAsyncInvoke, listAsyncInvokes]
+  deleted_by: null
+  states: [InProgress, Completed, Failed]
+  note: The only durable entity. It cannot be cancelled or deleted — see conventions/ reversibility.
+- name: Message
+  persistent: false
+  note: Converse request/response document — role plus a content[] block list.
+- name: ContentBlock
+  persistent: false
+  note: Discriminated union of text, image, video, document, toolUse and toolResult members.
+- name: Guardrail
+  identifier: guardrailIdentifier
+  persistent: true
+  owner: customer
+  note: >-
+    Created on the Bedrock control plane, referenced here by ApplyGuardrail and by the
+    guardrailConfig of an inference request. Out of scope for this repo's OpenAPI.
+relationships:
+- from: AsyncInvocation
+  to: FoundationModel
+  kind: belongs_to
+  via: modelId
+- from: AsyncInvocation
+  to: S3Location
+  kind: has_one
+  via: outputDataConfig.s3OutputDataConfig.s3Uri
+  note: Generated media (Nova Reel video) is written to the caller's own Amazon S3 bucket.
+- from: Message
+  to: ContentBlock
+  kind: has_many
+  via: content
+- from: ConverseRequest
+  to: Message
+  kind: has_many
+  via: messages
+- from: ConverseRequest
+  to: FoundationModel
+  kind: belongs_to
+  via: modelId
+- from: InvokeModelRequest
+  to: FoundationModel
+  kind: belongs_to
+  via: modelId
+- from: InferenceProfile
+  to: FoundationModel
+  kind: has_many
+  via: routed model variants
+- from: InferenceRequest
+  to: Guardrail
+  kind: has_one
+  via: guardrailConfig.guardrailIdentifier
+summary:
+  entities: 6
+  persistent_entities: 2
+  relationships: 8
