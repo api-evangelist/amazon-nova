@@ -12,14 +12,18 @@ deployment:
   package: https://pypi.org/project/awslabs.nova-canvas-mcp-server/
   auth: oauth
   verified: probed
-  note: >-
-    Two distinct surfaces, deliberately recorded separately below. The REMOTE endpoint is the AWS
-    MCP Server — Amazon-operated, account-wide, GA since 2026-05-06, and the door through which an
-    agent actually reaches Amazon Nova today (via the AWS CLI / boto3 tools). It answered an
-    anonymous tools/list with HTTP 200 and 9 real tools on 2026-09-01, and it publishes RFC 9728
-    protected-resource metadata pointing at https://us-east-1.oauth.signin.aws for the
-    authenticated calls. The LOCAL-STDIO package is the only Nova-branded MCP distribution AWS ever
-    shipped, awslabs.nova-canvas-mcp-server, and it is deprecated.
+  note: Two distinct surfaces, deliberately recorded separately below. The REMOTE endpoint is the AWS
+    MCP Server — Amazon-operated, account-wide, GA since 2026-05-06, and the door through which an agent
+    actually reaches Amazon Nova today (via the AWS CLI / boto3 tools). It answered an anonymous tools/list
+    with HTTP 200 and 9 real tools on 2026-09-01, and it publishes RFC 9728 protected-resource metadata
+    pointing at https://us-east-1.oauth.signin.aws for the authenticated calls. The LOCAL-STDIO package
+    is the only Nova-branded MCP distribution AWS ever shipped, awslabs.nova-canvas-mcp-server, and it
+    is deprecated.
+  probe_prior: (never probed)
+  probe: live
+  probe_why: live
+  checked: '2026-09-11'
+  source: claimed-backlog re-probe 2026-09-11
 servers:
 - name: aws-mcp-server
   scope: aws-platform
@@ -36,13 +40,12 @@ servers:
     http_status: 200
     tools_returned: 9
     fetched: '2026-09-01'
-  note: >-
-    Not Nova-specific. It exposes the AWS control plane and documentation to a coding agent, and an
-    agent reaches Nova through it by running `aws bedrock-runtime invoke-model` / `converse` inside
-    the call_aws / run_script tools, or by loading an AWS skill via retrieve_skill.
+  note: Not Nova-specific. It exposes the AWS control plane and documentation to a coding agent, and an
+    agent reaches Nova through it by running `aws bedrock-runtime invoke-model` / `converse` inside the
+    call_aws / run_script tools, or by loading an AWS skill via retrieve_skill.
   tools:
   - name: aws___call_aws
-    description: 'Execute AWS CLI commands. DEPRECATED in favour of run_script.'
+    description: Execute AWS CLI commands. DEPRECATED in favour of run_script.
     status: deprecated
   - name: aws___run_script
     description: Execute Python in a sandboxed environment with AWS API access via call_boto3.
@@ -70,10 +73,9 @@ servers:
   operator: AWS Labs
   status: deprecated
   auth: api-key
-  note: >-
-    Deprecation is stated by AWS in the package's own description, which redirects users to
-    bedrock-image-mcp-server. The src/nova-canvas-mcp-server directory has been removed from
-    awslabs/mcp (GitHub contents API returns 404 as of 2026-09-01).
+  note: Deprecation is stated by AWS in the package's own description, which redirects users to bedrock-image-mcp-server.
+    The src/nova-canvas-mcp-server directory has been removed from awslabs/mcp (GitHub contents API returns
+    404 as of 2026-09-01).
   tools:
   - name: generate_image
     description: Create images from text prompts with Amazon Nova Canvas.
