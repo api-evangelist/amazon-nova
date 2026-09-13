@@ -83,3 +83,28 @@ servers:
   - name: generate_image_with_colors
     description: Generate images with a caller-supplied hex colour palette (up to 10 colours).
     source_operation: openapi/amazon-nova-inference-api-openapi.yml#invokeModel
+tools_count: 8
+tools:
+- name: aws___get_presigned_url
+  description: ''
+- name: aws___get_tasks
+  description: ''
+- name: aws___run_script
+  description: ''
+- name: aws___get_regional_availability
+  description: ''
+- name: aws___list_regions
+  description: ''
+- name: aws___read_documentation
+  description: ''
+- name: aws___retrieve_skill
+  description: ''
+- name: aws___search_documentation
+  description: ''
+tools_source: live tools/list via initialize handshake, 2026-09-11 (signals/audit_mcp_authorship.py --probe)
+authorship: platform
+authorship_note: 'PLATFORM-AUTHORED: this tool shape is shared with at least one other provider in the
+  catalog, so it is a platform default appearing under this provider''s domain rather than an interface
+  this provider designed. Shared shape: (''aws_get_presigned_url'', ''aws_get_regional_availability'',
+  ''aws_get_tasks'', ''aws_list_regions'', ''aws_read_*'', ''aws_retrieve_skill'', ''aws_run_script'',
+  ''aws_search_*'')'
