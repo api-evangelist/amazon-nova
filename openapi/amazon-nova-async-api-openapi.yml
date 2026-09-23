@@ -12,9 +12,7 @@ info:
 
     long-running tasks like Nova Reel video generation.
 
-    All requests are signed with AWS Signature Version 4 (SigV4).
-
-    '
+    All requests are signed with AWS Signature Version 4 (SigV4).'
   contact:
     name: Amazon Web Services
     url: https://docs.aws.amazon.com/nova/latest/userguide/what-is-nova.html

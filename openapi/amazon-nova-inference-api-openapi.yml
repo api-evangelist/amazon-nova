@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Amazon Nova on Amazon Bedrock Runtime Async Inference API
+  title: Amazon Nova on Amazon Bedrock Runtime Inference API
   version: '2023-09-30'
   description: 'Invoke Amazon Nova foundation models (Premier, Pro, Lite, Micro, Canvas,
 
@@ -12,9 +12,7 @@ info:
 
     long-running tasks like Nova Reel video generation.
 
-    All requests are signed with AWS Signature Version 4 (SigV4).
-
-    '
+    All requests are signed with AWS Signature Version 4 (SigV4).'
   contact:
     name: Amazon Web Services
     url: https://docs.aws.amazon.com/nova/latest/userguide/what-is-nova.html
@@ -40,9 +38,7 @@ paths:
 
         (for example `amazon.nova-pro-v1:0`, `amazon.nova-canvas-v1:0`,
 
-        or an inference profile id like `us.amazon.nova-lite-v1:0`).
-
-        '
+        or an inference profile id like `us.amazon.nova-lite-v1:0`).'
       operationId: invokeModel
       parameters:
       - in: path

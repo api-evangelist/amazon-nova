@@ -1,8 +1,7 @@
 {
   "provider": "amazon-nova",
   "sources": [
-    "amazon-nova-async-api-openapi.yml",
-    "amazon-nova-inference-api-openapi.yml"
+    "_original/amazon-nova-openapi.yml"
   ],
   "outputs": [
     "amazon-nova-async-api-openapi.yml",
@@ -12,7 +11,12 @@
   "errors": [],
   "warnings": [],
   "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "amazon-nova-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "amazon-nova-async-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "amazon-nova-inference-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
