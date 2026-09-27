@@ -38,8 +38,8 @@ tags:
 - AWS
 - Foundation Models
 - Generative AI
-- Image-Generation
-- Machine-Learning
+- Image Generation
+- Machine Learning
 - Multi-Modal
 - Speech
 - Video Generation
@@ -52,6 +52,8 @@ tags_raw:
 - Multimodal
 - Speech
 - Video Generation
+- Image-Generation
+- Machine-Learning
 url: >-
   https://raw.githubusercontent.com/api-evangelist/amazon-nova/refs/heads/main/apis.yml
 created: '2026-03-16'
@@ -266,5 +268,5 @@ x-enrichment:
   status: enriched
   artifacts_added: 23
   pass: local-v1
-x-parent: aws
+x-parent: amazon-web-services
 x-relationship: product
