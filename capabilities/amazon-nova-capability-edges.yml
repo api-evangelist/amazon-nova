@@ -1,0 +1,34 @@
+slug: amazon-nova
+provider: Amazon Nova
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: Inference
+  spec_file: amazon-nova-inference-api-openapi.yml
+  capability_id: BC-610.60
+  capability_id_l1: BC-610
+  capability_name: Artificial Intelligence Management
+  confidence: 0.8
+  evidence: POST /model/{modelId}/invoke  invokeModel  Invoke a Nova model; POST /model/{modelId}/converse  converse
+  reason: Operations perform foundation-model inference (invoke, streaming, converse) — AI/ML model consumption,
+    mapped to Artificial Intelligence Management.
+- tag: Async
+  spec_file: amazon-nova-async-api-openapi.yml
+  capability_id: BC-610.60
+  capability_id_l1: BC-610
+  capability_name: Artificial Intelligence Management
+  confidence: 0.7
+  evidence: POST /async-invoke  startAsyncInvoke  Start an asynchronous Nova invocation; "asynchronous
+    invocation for long-running tasks like Nova Reel video generation"
+  reason: Asynchronous invocation of foundation models is AI model runtime usage, falling under Artificial
+    Intelligence Management; the tag itself is a technical invocation mode, hence moderate confidence.
