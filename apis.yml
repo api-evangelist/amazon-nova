@@ -114,6 +114,8 @@ apis:
   - type: OpenAPI
     url: openapi/amazon-nova-inference-api-openapi.yml
 common:
+- type: FinOps
+  url: finops/amazon-nova-finops.yml
 - type: CapabilityMap
   url: capabilities/amazon-nova-capability-edges.yml
   name: Amazon Nova Business Capability Map
