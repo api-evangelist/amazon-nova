@@ -18,20 +18,19 @@ deliveryModel:
   generated: '2026-08-28'
   method: derived
 accessModel:
-  pricing: paid
+  pricing: unknown
   onboarding: unknown
   trial: false
   try_now: false
   public: false
-  label: Paid
-  confidence: high
+  label: Unknown
+  confidence: low
   source:
-  - finops
   - authentication
   - rate-limits
   - security
   - sandbox
-  generated: '2026-09-03'
+  generated: '2026-11-02'
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/amazon-nova.png
 tags:
