@@ -1,10 +1,14 @@
 aid: amazon-nova
+
 name: Amazon Nova
+
 description: >-
   Amazon Nova is a new generation of state-of-the-art foundation models from Amazon that deliver a compelling combination of accuracy, speed, and cost efficiency. Amazon Nova models are accessible through
   Amazon Bedrock and support text, image, video, speech understanding and generation across a range of model types: Nova Premier (1M context), Nova Pro, Nova Lite, Nova Micro (text-only), Nova Canvas (image
   generation), Nova Reel (video generation), and Nova Sonic (speech).
+
 type: Index
+
 deliveryModel:
   model: saas
   open_source: false
@@ -17,6 +21,7 @@ deliveryModel:
   - pricing
   generated: '2026-08-28'
   method: derived
+
 accessModel:
   pricing: unknown
   onboarding: unknown
@@ -30,9 +35,10 @@ accessModel:
   - rate-limits
   - security
   - sandbox
-  generated: '2026-11-06'
+  generated: '2026-11-13'
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/amazon-nova.png
+
 tags:
 - Amazon Web Services
 - Foundation Models
@@ -48,71 +54,48 @@ tags_raw:
 - Generative AI
 - Image Generation
 - Machine Learning
+- Multi-Modal
+- Speech
+- Video Generation
+
+tags_raw:
+- AWS
+- Foundation Models
+- Generative AI
+- Image Generation
+- Machine Learning
 - Multimodal
 - Speech
 - Video Generation
 - Image-Generation
 - Machine-Learning
+
 url: >-
   https://raw.githubusercontent.com/api-evangelist/amazon-nova/refs/heads/main/apis.yml
+
 created: '2026-03-16'
+
 modified: '2026-09-01'
+
 specificationVersion: '0.23'
-apis:
-- aid: amazon-nova:amazon-nova-api
-  name: Amazon Nova API
-  description: >-
-    The Amazon Nova API provides programmatic access to Amazon Nova foundation models through Amazon Bedrock
-    for text, image, and video generation, understanding, and reasoning tasks. Supports Nova Premier,
-    Pro, Lite, Micro, Canvas, Reel, and Sonic models.
-  humanUrl: https://docs.aws.amazon.com/nova/latest/userguide/what-is-nova.html
-  baseUrl: https://bedrock-runtime.{region}.amazonaws.com
-  tags:
-  - Foundation Models
-  - Generative AI
-  - Multi-Modal
-  tags_raw:
-  - Foundation Models
-  - Generative AI
-  - Multimodal
-  properties:
-  - type: Documentation
-    url: https://docs.aws.amazon.com/nova/latest/userguide/what-is-nova.html
-  - type: APIReference
-    url: https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_InvokeModel.html
-  - type: GettingStarted
-    url: https://docs.aws.amazon.com/nova/latest/userguide/getting-started.html
-  - type: Pricing
-    url: https://aws.amazon.com/bedrock/pricing/
-- aid: amazon-nova:amazon-nova-async-api
-  name: Amazon Nova Async API
-  description: >-
-    Asynchronous invocation for long-running Amazon Nova generation jobs, principally Amazon Nova
-    Reel video generation. StartAsyncInvoke returns an invocationArn, GetAsyncInvoke polls it, and
-    output media is written to a caller-owned Amazon S3 bucket. clientRequestToken carries the only
-    idempotency contract in the Amazon Nova surface.
-  humanUrl: https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_StartAsyncInvoke.html
-  baseUrl: https://bedrock-runtime.{region}.amazonaws.com
-  tags:
-  - Async
-  properties:
-  - type: OpenAPI
-    url: openapi/amazon-nova-async-api-openapi.yml
-- aid: amazon-nova:amazon-nova-inference-api
-  name: Amazon Nova Inference API
-  description: >-
-    Synchronous and streaming inference against the Amazon Nova understanding and generation
-    models through the Amazon Bedrock Runtime endpoint — InvokeModel, InvokeModelWithResponseStream,
-    Converse and ConverseStream. Requests are AWS SigV4-signed or authenticated with an Amazon
-    Bedrock API key.
-  humanUrl: https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html
-  baseUrl: https://bedrock-runtime.{region}.amazonaws.com
-  tags:
-  - Inference
-  properties:
-  - type: OpenAPI
-    url: openapi/amazon-nova-inference-api-openapi.yml
+
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
+
 common:
+- type: Spectral
+  url: rules/amazon-nova-rules.yml
+- type: Vocabulary
+  url: vocabulary/amazon-nova-vocabulary.yml
+- type: Hosts
+  url: hosts/amazon-nova-hosts.yml
+- type: IntegrationEdges
+  url: integrations/amazon-nova-integration-edges.yml
+- type: Vendors
+  url: vendors/amazon-nova-vendors.yml
+- type: Newsroom
+  url: https://aws.amazon.com/media/?nc2=h_sol_ind_med
 - type: FinOps
   url: finops/amazon-nova-finops.yml
 - type: CapabilityMap
@@ -264,13 +247,76 @@ common:
     description: Store and access training data, batch inference inputs/outputs, and generated media artifacts.
   - name: AWS IAM
     description: Control access to Nova model invocations through fine-grained IAM policies and Bedrock model access settings.
-maintainers:
-- FN: Kin Lane
-  email: kin@apievangelist.com
-x-enrichment:
-  date: '2026-09-01'
-  status: enriched
-  artifacts_added: 23
-  pass: local-v1
+- type: DeprecationSchedule
+  url: deprecation/amazon-nova-deprecation-policy.yml
+- type: UsageTerms
+  url: terms/amazon-nova-terms-of-service.yml
+- type: Eligibility
+  url: eligibility/amazon-nova-eligibility.yml
+- type: AIPreferences
+  url: ai-preferences/amazon-nova-ai-preferences.yml
+
+apis:
+- aid: amazon-nova:amazon-nova-api
+  name: Amazon Nova API
+  description: >-
+    The Amazon Nova API provides programmatic access to Amazon Nova foundation models through Amazon Bedrock
+    for text, image, and video generation, understanding, and reasoning tasks. Supports Nova Premier,
+    Pro, Lite, Micro, Canvas, Reel, and Sonic models.
+  humanUrl: https://docs.aws.amazon.com/nova/latest/userguide/what-is-nova.html
+  baseUrl: https://bedrock-runtime.{region}.amazonaws.com
+  tags:
+  - Foundation Models
+  - Generative AI
+  - Multi-Modal
+  tags_raw:
+  - Foundation Models
+  - Generative AI
+  - Multimodal
+  properties:
+  - type: Documentation
+    url: https://docs.aws.amazon.com/nova/latest/userguide/what-is-nova.html
+  - type: APIReference
+    url: https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_InvokeModel.html
+  - type: GettingStarted
+    url: https://docs.aws.amazon.com/nova/latest/userguide/getting-started.html
+  - type: Pricing
+    url: https://aws.amazon.com/bedrock/pricing/
+- aid: amazon-nova:amazon-nova-async-api
+  name: Amazon Nova Async API
+  description: >-
+    Asynchronous invocation for long-running Amazon Nova generation jobs, principally Amazon Nova
+    Reel video generation. StartAsyncInvoke returns an invocationArn, GetAsyncInvoke polls it, and
+    output media is written to a caller-owned Amazon S3 bucket. clientRequestToken carries the only
+    idempotency contract in the Amazon Nova surface.
+  humanUrl: https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_StartAsyncInvoke.html
+  baseUrl: https://bedrock-runtime.{region}.amazonaws.com
+  tags:
+  - Async
+  properties:
+  - type: OpenAPI
+    url: openapi/amazon-nova-async-api-openapi.yml
+- aid: amazon-nova:amazon-nova-inference-api
+  name: Amazon Nova Inference API
+  description: >-
+    Synchronous and streaming inference against the Amazon Nova understanding and generation
+    models through the Amazon Bedrock Runtime endpoint — InvokeModel, InvokeModelWithResponseStream,
+    Converse and ConverseStream. Requests are AWS SigV4-signed or authenticated with an Amazon
+    Bedrock API key.
+  humanUrl: https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html
+  baseUrl: https://bedrock-runtime.{region}.amazonaws.com
+  tags:
+  - Inference
+  properties:
+  - type: OpenAPI
+    url: openapi/amazon-nova-inference-api-openapi.yml
+
+
 x-parent: amazon-web-services
+
 x-relationship: product
+x-enrichment:
+  date: '2026-11-11'
+  status: enriched
+  artifacts_added: 0
+  pass: local-v6

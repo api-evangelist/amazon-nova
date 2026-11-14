@@ -5,6 +5,9 @@ artifacts:
   agentic-access/amazon-nova-agentic-access.yml:
     method: generated
     evidence: declared in the artifact
+  ai-preferences/amazon-nova-ai-preferences.yml:
+    method: harvested
+    evidence: declared in the artifact
   asyncapi/amazon-nova-events.yml:
     method: searched
     evidence: declared in the artifact
@@ -12,6 +15,12 @@ artifacts:
     method: searched
     evidence: declared in the artifact
   capabilities/amazon-nova-capability-edges.yml:
+    method: unknown
+    evidence: no authorship recorded
+  certification/observations-2026-11-11.jsonl:
+    method: unknown
+    evidence: no authorship recorded
+  certification/status.yml:
     method: unknown
     evidence: no authorship recorded
   changelog/amazon-nova-changelog.yml:
@@ -47,6 +56,12 @@ artifacts:
   data-model/amazon-nova-data-model.yml:
     method: derived
     evidence: declared in the artifact
+  deprecation/amazon-nova-deprecation-policy.yml:
+    method: harvested
+    evidence: declared in the artifact
+  eligibility/amazon-nova-eligibility.yml:
+    method: harvested
+    evidence: declared in the artifact
   errors/amazon-nova-problem-types.yml:
     method: searched
     evidence: declared in the artifact
@@ -56,6 +71,9 @@ artifacts:
   front-door-ai/2026-09-17.yml:
     method: unknown
     evidence: no authorship recorded
+  hosts/amazon-nova-hosts.yml:
+    method: derived
+    evidence: declared in the artifact
   integrations/_index.yml:
     method: generated
     evidence: carries an API Evangelist house phrase
@@ -65,7 +83,7 @@ artifacts:
   kin/checks-2026-10-23T222754.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
-  kin/checks-2026-11-02T082323.yml:
+  kin/checks-2026-11-06T143934.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-23T000603.yml:
@@ -134,9 +152,15 @@ artifacts:
   kin/score-2026-11-02T082323.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-11-06T143934.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
   lifecycle/amazon-nova-lifecycle.yml:
     method: searched
     evidence: declared in the artifact
+  llms/amazon-nova-llms-provenance.yml:
+    method: searched
+    evidence: 'derive-llms-provenance.py: harvested'
   llms/amazon-nova-llms.txt:
     method: searched
     evidence: 'derive-llms-provenance.py: harvested'
@@ -146,16 +170,12 @@ artifacts:
   mcp/amazon-nova-tool-crosswalk.yml:
     method: derived
     evidence: declared in the artifact
-  openapi/_original/amazon-nova-openapi.yml:
-    method: harvested
-    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
-      to the provider's source is unverified
   openapi/amazon-nova-async-api-openapi.yml:
-    method: derived
-    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+    method: unknown
+    evidence: no authorship recorded
   openapi/amazon-nova-inference-api-openapi.yml:
-    method: derived
-    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+    method: unknown
+    evidence: no authorship recorded
   overlays/amazon-nova-async-api-overlay.yaml:
     method: derived
     evidence: an API Evangelist overlay (title) over the provider's contract
@@ -200,6 +220,19 @@ artifacts:
     evidence: declared in the artifact
   skills/amazon-nova-invoke-image.md:
     method: generated
+    evidence: declared in the artifact
+  smithy/nova-act-2025-08-22.json:
+    method: harvested
+    evidence: byte-identical to https://raw.githubusercontent.com/aws/api-models-aws/5ff5b20d1c425dffd72b38b9a8019ef65824f4fe/models/nova-act/service/2025-08-22/nova-act-2025-08-22.json
+      (sha256 135733771a65, fetched 2026-11-11T11:23:50+00:00)
+  terms/amazon-nova-terms-of-service.yml:
+    method: harvested
+    evidence: declared in the artifact
+  vendors/amazon-nova-vendors.yml:
+    method: unknown
+    evidence: no authorship recorded
+  vocabulary/amazon-nova-vocabulary.yml:
+    method: derived
     evidence: declared in the artifact
   well-known/amazon-nova-oauth-authorization-server.json:
     method: unknown
